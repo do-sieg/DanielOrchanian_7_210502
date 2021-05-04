@@ -93,7 +93,7 @@ export default function SignupForm({ onFetchStart, onFetchEnd }) {
             <input type="password" value={password} onChange={handleChangePassword} required />
             {errPassword !== "" && <p>{errPassword}</p>}
 
-            <button onClick={handleSubmit}>S'enregistrer</button>
+            <button onClick={handleSubmit}>S'inscrire</button>
         </form>
     );
 }

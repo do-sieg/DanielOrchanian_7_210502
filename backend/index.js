@@ -1,9 +1,12 @@
-
+import dotenv from 'dotenv';
 import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
 import router from './router';
 import { initAllTables } from './database/init';
+
+// Environment variables
+dotenv.config();
 
 // Set up express server
 const app = express();

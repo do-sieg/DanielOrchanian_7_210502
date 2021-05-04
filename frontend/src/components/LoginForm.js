@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { appFetch } from "../utils/fetch";
 import { isValidEmail } from "../utils/validation";
 
 export default function LoginForm({ onFetchStart, onFetchEnd }) {
     // Fields
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    // const [email, setEmail] = useState("");
+    // const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("test@test.test");
+    const [password, setPassword] = useState("123");
 
     // Validation Errors
     const [errEmail, setErrEmail] = useState("");
@@ -37,7 +40,7 @@ export default function LoginForm({ onFetchStart, onFetchEnd }) {
         return true;
     }
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
 
         if (!canSubmit()) {
@@ -50,6 +53,9 @@ export default function LoginForm({ onFetchStart, onFetchEnd }) {
 
 
         onFetchStart();
+        const result = await appFetch('post', '/auth/login', body);
+        onFetchEnd();
+        alert(result.message);
     }
 
     return (
@@ -62,7 +68,7 @@ export default function LoginForm({ onFetchStart, onFetchEnd }) {
             <input type="password" value={password} onChange={handleChangePassword} required />
             {errPassword !== "" && <p>{errPassword}</p>}
 
-            <button onClick={handleSubmit}>S'enregistrer</button>
+            <button onClick={handleSubmit}>Se connecter</button>
         </form>
     );
 }
