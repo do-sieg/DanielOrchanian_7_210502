@@ -1,7 +1,7 @@
 // Check if string has special characters
 export function hasSpecialChars(value, allowed = []) {
     const checks = [];
-    checks.push(/[`!#$%^&*()+\=\[\]{};':"\\|,<>?~]/);
+    checks.push(/[`!#$%^&*()+=[\]{};':"\\|,<>?~]/);
     if (!allowed.includes('@')) checks.push(/[@]/);
     if (!allowed.includes('-')) checks.push(/[-]/);
     if (!allowed.includes('_')) checks.push(/[_]/);

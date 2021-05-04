@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { appFetch } from "../utils/fetch";
 import { isValidEmail } from "../utils/validation";
 
 export default function SignupForm({ onFetchStart, onFetchEnd }) {
@@ -59,7 +60,7 @@ export default function SignupForm({ onFetchStart, onFetchEnd }) {
         return true;
     }
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
 
         if (!canSubmit()) {
@@ -68,10 +69,10 @@ export default function SignupForm({ onFetchStart, onFetchEnd }) {
 
         const body = { firstName, lastName, email, password };
 
-        console.log(body);
-
-
         onFetchStart();
+        const result = await appFetch('post', '/auth/signup', body);
+        onFetchEnd();
+        alert(result.message);
     }
 
     return (
