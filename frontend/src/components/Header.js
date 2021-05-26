@@ -1,10 +1,10 @@
 import { deleteToken } from "../utils/token";
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 
 export default function Header({ isAuthenticated = false }) {
 
     const history = useHistory();
-
 
     function handleLogout(e) {
         e.preventDefault();
@@ -16,8 +16,10 @@ export default function Header({ isAuthenticated = false }) {
     return (
         <header>
             {isAuthenticated ?
-
-                <button onClick={handleLogout}>Logout</button>
+                <>
+                    <Link to="/profile">Profil</Link>
+                    <button onClick={handleLogout}>Déconnexion</button>
+                </>
                 :
                 "NOPE"
             }

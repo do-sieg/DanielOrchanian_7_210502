@@ -52,11 +52,11 @@ export default function LoginForm({ onFetchStart, onFetchEnd }) {
 
         onFetchStart();
         const result = await appFetch('post', '/auth/login', body);
-        onFetchEnd();
         alert(result.message);
         if (result.data) {
             storeToken(result.data);
         }
+        onFetchEnd();
 
     }
 

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import AuthLayout from "../components/AuthLayout";
 import { appFetch } from "../utils/fetch";
+import { deleteToken } from "../utils/token";
 
 export default function Profile() {
     const history = useHistory();
@@ -24,7 +25,10 @@ export default function Profile() {
 
             if (result.status !== 200) {
                 alert(result.message);
-                history.replace("/");
+                if (result.status === 401) {
+                    deleteToken();
+                    history.push("/");
+                }
                 return;
             }
 
