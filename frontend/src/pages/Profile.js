@@ -21,10 +21,12 @@ export default function Profile() {
             
             
             
-            console.log("SUITE");
+            console.log("SUITE", result);
 
+            // user_first_name: "test"
+            // user_image_path: "undefined"
+            // user_last_name:
 
-            
 
 
 

@@ -2,14 +2,15 @@ import { sqlQuery } from "../utils/mysql";
 
 const TABLE_NAME = "users";
 const SELECT_FIELDS = [
-    "user_id",
-    "user_first_name",
-    "user_last_name",
-    "user_email",
-    "user_image_path",
-    "user_creation_date",
-    "user_active",
-]
+    "user_id AS id",
+    "user_first_name AS firstName",
+    "user_last_name AS lastName",
+    "user_email AS email",
+    "user_image_path AS imagePath",
+    "user_creation_date AS creationDate",
+    "user_active AS active",
+];
+
 
 export async function initUsersTable() {
     try {

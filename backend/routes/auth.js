@@ -39,11 +39,14 @@ router.post("/login",
     }),
     async (req, res, next) => {
         try {
-            const findUser = await getUserByEmail(req.body.email, ["user_id", "user_password"]);
+            const findUser = await getUserByEmail(req.body.email, [
+                "user_id AS id",
+                "user_password AS password",
+            ]);
             if (findUser) {
-                const match = await verifyPassword(req.body.password, findUser.user_password);
+                const match = await verifyPassword(req.body.password, findUser.password);
                 if (match === true) {
-                    const token = await createToken({ user_id: findUser.user_id });
+                    const token = await createToken({ user_id: findUser.id });
                     res.status(200).json({ data: token, message: "Utilisateur connecté" });
                 } else {
                     res.status(400).json({ data: null, message: "Identifiants invalides" });

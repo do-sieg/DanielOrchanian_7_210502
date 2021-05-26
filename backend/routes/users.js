@@ -9,10 +9,11 @@ const router = express.Router();
 router.get("/profile", auth, async (req, res, next) => {
     try {
         const decoded = decodeToken(req.accessToken);
-
-        console.log(decoded.user_id);
-
-        const findUser = await getUserById(decoded.user_id, ["user_first_name", "user_last_name", "user_image_path"]);
+        const findUser = await getUserById(decoded.user_id, [
+            "user_first_name AS firstName",
+            "user_last_name AS lastName",
+            "user_image_path AS imagePath",
+        ]);
         if (findUser) {
             res.status(200).json({ data: findUser });
         } else {
@@ -21,16 +22,6 @@ router.get("/profile", auth, async (req, res, next) => {
     } catch (err) {
         handleServerError(req, res, err);
     }
-
-
-
-
-
-    // try {
-    //     const sauces = await Sauce.find();
-    //     res.status(200).json(sauces);
-
-
 });
 
 export default router;
