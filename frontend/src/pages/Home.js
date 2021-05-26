@@ -1,4 +1,5 @@
 import { useState } from "react";
+import GuestLayout from "../components/GuestLayout";
 import LoginForm from "../components/LoginForm";
 import SignupForm from "../components/SignupForm";
 
@@ -16,7 +17,7 @@ export default function Home() {
     }
 
     return (
-        <div>
+        <GuestLayout>
             {load ?
                 <p>LOADING...</p>
                 :
@@ -25,6 +26,6 @@ export default function Home() {
                     <LoginForm onFetchStart={handleStartLoad} onFetchEnd={handleEndLoad} />
                 </>
             }
-        </div>
+        </GuestLayout>
     );
 }

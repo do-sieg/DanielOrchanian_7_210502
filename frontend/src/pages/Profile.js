@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
+import AuthLayout from "../components/AuthLayout";
 import { appFetch } from "../utils/fetch";
 
 export default function Profile() {
@@ -9,14 +10,14 @@ export default function Profile() {
 
     const [fieldFirstName, setFieldFirstName] = useState("");
     const [fieldLastName, setFieldLastName] = useState("");
-    const [fieldImagePath, setFieldImagePath] = useState("");
+    // const [fieldImagePath, setFieldImagePath] = useState("");
 
     // Validation Errors
     const [errFirstName, setErrFirstName] = useState("");
     const [errLastName, setErrLastName] = useState("");
-    const [errImagePath, setErrImagePath] = useState("");
+    // const [errImagePath, setErrImagePath] = useState("");
 
-    useEffect(async () => {
+    useEffect(() => {
         async function loadProfile() {
 
             const result = await appFetch('get', '/users/profile');
@@ -30,13 +31,14 @@ export default function Profile() {
             if (result.data) {
                 setFieldFirstName(result.data.firstName);
                 setFieldLastName(result.data.lastName);
-                setFieldImagePath(result.data.imagePath);
+                // setFieldImagePath(result.data.imagePath);
             } else {
                 // ERREUR
             }
             setLoad(false);
         }
         loadProfile();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 
@@ -53,7 +55,7 @@ export default function Profile() {
     function canSubmit() {
         setErrFirstName("");
         setErrLastName("");
-        
+
         if (fieldFirstName === "") {
             setErrFirstName("Veuillez renseigner ce champ");
             return false;
@@ -89,7 +91,7 @@ export default function Profile() {
     }
 
     return (
-        <div>
+        <AuthLayout>
             {load ?
                 <p>LOADING...</p>
                 :
@@ -110,6 +112,6 @@ export default function Profile() {
 
                 </div>
             }
-        </div>
+        </AuthLayout>
     );
 }
