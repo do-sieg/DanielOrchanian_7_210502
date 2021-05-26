@@ -63,3 +63,17 @@ export async function createUser(firstName, lastName, email, password, imagePath
         throw err;
     }
 }
+
+export async function updateUser(id, firstName, lastName) {
+    try {
+        await sqlQuery(`
+            UPDATE ${TABLE_NAME} SET
+            user_first_name = '${firstName}',
+            user_last_name = '${lastName}'
+            WHERE user_id = ${id}
+        `);
+        return true;
+    } catch (err) {
+        throw err;
+    }
+}
