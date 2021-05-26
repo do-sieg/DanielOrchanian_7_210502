@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import path from 'path';
 import express from 'express';
-import bodyParser from 'body-parser';
+import helmet from 'helmet';
 import router from './router';
 import { initAllTables } from './database/init';
 
@@ -11,7 +11,8 @@ dotenv.config();
 // Set up express server
 const app = express();
 
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(helmet());
 
 // CORS permissions
 app.use((req, res, next) => {

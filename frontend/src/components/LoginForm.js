@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { appFetch } from "../utils/fetch";
+import { storeToken } from "../utils/token";
 import { isValidEmail } from "../utils/validation";
 
 export default function LoginForm({ onFetchStart, onFetchEnd }) {
@@ -49,13 +50,14 @@ export default function LoginForm({ onFetchStart, onFetchEnd }) {
 
         const body = { email, password };
 
-        console.log(body);
-
-
         onFetchStart();
         const result = await appFetch('post', '/auth/login', body);
         onFetchEnd();
         alert(result.message);
+        if (result.data) {
+            storeToken(result.data);
+        }
+
     }
 
     return (

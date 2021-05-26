@@ -41,6 +41,16 @@ export async function getUserByEmail(email, fields = SELECT_FIELDS) {
     }
 }
 
+
+export async function getUserById(userId, fields = SELECT_FIELDS) {
+    try {
+        const rows = await sqlQuery(`SELECT ${fields} FROM ${TABLE_NAME} WHERE user_id='${userId}'`);
+        return rows.length > 0 ? rows[0] : null;
+    } catch (err) {
+        throw err;
+    }
+}
+
 export async function createUser(firstName, lastName, email, password, imagePath) {
     try {
         const result = await sqlQuery(`

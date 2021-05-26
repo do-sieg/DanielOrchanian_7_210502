@@ -42,7 +42,6 @@ router.post("/login",
             const findUser = await getUserByEmail(req.body.email, ["user_id", "user_password"]);
             if (findUser) {
                 const match = await verifyPassword(req.body.password, findUser.user_password);
-                console.log("match", match);
                 if (match === true) {
                     const token = await createToken({ user_id: findUser.user_id });
                     res.status(200).json({ data: token, message: "Utilisateur connecté" });
