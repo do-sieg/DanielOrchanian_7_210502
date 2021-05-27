@@ -77,3 +77,16 @@ export async function updateUser(id, firstName, lastName) {
         throw err;
     }
 }
+
+
+export async function deleteUser(id) {
+    try {
+        await sqlQuery(`
+            DELETE FROM ${TABLE_NAME}
+            WHERE user_id = ${id}
+        `);
+        return true;
+    } catch (err) {
+        throw err;
+    }
+}

@@ -95,8 +95,20 @@ export default function Profile() {
             setLoad(false);
             alert(result.message);
         }
+    }
 
-
+    async function handleDelete(e) {
+        e.preventDefault();
+        if (window.confirm("Supprimer le profil ? Cette action est irréversible.")) {
+            setLoad(true);
+            const result = await appFetch('delete', '/users/profile');
+            setLoad(false);
+            alert(result.message);
+            if (result.status === 200) {
+                deleteToken();
+                history.push("/");
+            }
+        }
     }
 
     return (
@@ -121,6 +133,7 @@ export default function Profile() {
                         {/* {fieldImagePath} */}
 
                         <button onClick={handleSubmit}>Modifier les changements</button>
+                        <button onClick={handleDelete}>Supprimer le compte</button>
 
                     </div>
             }
