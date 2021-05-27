@@ -15,11 +15,12 @@ export default function Header({ isAuthenticated = false }) {
 
     return (
         <header>
+            <p>LOGO</p>
             {isAuthenticated ?
-                <>
+                <nav>
                     <Link to="/profile">Profil</Link>
                     <button onClick={handleLogout}>Déconnexion</button>
-                </>
+                </nav>
                 :
                 "NOPE"
             }

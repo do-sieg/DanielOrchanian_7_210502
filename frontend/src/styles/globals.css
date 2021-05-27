@@ -1,0 +1,35 @@
+* {
+  box-sizing: border-box;
+}
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+header {
+  height: 5rem;
+  display: flex;
+  justify-content: space-between;
+}
+nav {
+  display: flex;
+  gap: 1rem;
+}
+nav a,
+nav button {
+  background-color: transparent;
+  border: none;
+}
+.error-block {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-size: xx-large;
+}
+.error-block .code {
+  padding-right: 1rem;
+  border-right: 2px solid #ccc;
+  font-weight: bold;
+}

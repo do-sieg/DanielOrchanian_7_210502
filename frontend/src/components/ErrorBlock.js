@@ -12,8 +12,9 @@ export default function ErrorBlock({ errCode }) {
     }
 
     return (
-        <div>
-            <p>{errCode} | {getErrMessage(errCode)}</p>
+        <div className="error-block">
+            <p className="code">{errCode}</p>
+            <p className="message">{getErrMessage(errCode)}</p>
         </div>
     );
 }
