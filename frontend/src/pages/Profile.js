@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import AuthLayout from "../components/AuthLayout";
 import ErrorBlock from "../components/ErrorBlock";
+import Loader from "../components/Loader";
 import { appFetch } from "../utils/fetch";
 import { deleteToken } from "../utils/token";
 
@@ -100,7 +101,7 @@ export default function Profile() {
     return (
         <AuthLayout>
             {load ?
-                <p>LOADING...</p>
+                <Loader />
                 :
                 pageError ?
                     <ErrorBlock errCode={pageError} />

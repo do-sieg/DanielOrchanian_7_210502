@@ -1,5 +1,6 @@
 import { useState } from "react";
 import AuthLayout from "../components/AuthLayout";
+import Loader from "../components/Loader";
 
 export default function Posts() {
     // const history = useHistory();
@@ -10,7 +11,7 @@ export default function Posts() {
     return (
         <AuthLayout>
             {load ?
-                <p>LOADING...</p>
+                <Loader />
                 :
                 "Posts"
             }

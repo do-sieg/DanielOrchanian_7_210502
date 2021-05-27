@@ -4,6 +4,7 @@ import {getToken} from "../utils/token";
 import GuestLayout from "../components/GuestLayout";
 import LoginForm from "../components/LoginForm";
 import SignupForm from "../components/SignupForm";
+import Loader from "../components/Loader";
 
 
 export default function Home() {
@@ -39,7 +40,7 @@ export default function Home() {
     return (
         <GuestLayout>
             {load ?
-                <p>LOADING...</p>
+                <Loader />
                 :
                 <>
                     <SignupForm onFetchStart={handleStartLoad} onFetchEnd={handleEndLoad} />
