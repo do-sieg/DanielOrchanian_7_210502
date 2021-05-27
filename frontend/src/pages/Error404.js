@@ -1,3 +1,5 @@
+import ErrorBlock from "../components/ErrorBlock";
+
 export default function Error404() {
-    return <div>404</div>;
+    return <ErrorBlock errCode={404} />;
 }

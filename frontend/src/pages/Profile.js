@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import AuthLayout from "../components/AuthLayout";
+import ErrorBlock from "../components/ErrorBlock";
 import { appFetch } from "../utils/fetch";
 import { deleteToken } from "../utils/token";
 
@@ -8,6 +9,7 @@ export default function Profile() {
     const history = useHistory();
 
     const [load, setLoad] = useState(true);
+    const [pageError, setPageError] = useState();
 
     const [fieldFirstName, setFieldFirstName] = useState("");
     const [fieldLastName, setFieldLastName] = useState("");
@@ -24,11 +26,12 @@ export default function Profile() {
             const result = await appFetch('get', '/users/profile');
 
             if (result.status !== 200) {
-                alert(result.message);
                 if (result.status === 401) {
                     deleteToken();
                     history.push("/");
                 }
+                setPageError(result.status);
+                setLoad(false);
                 return;
             }
 
@@ -73,7 +76,7 @@ export default function Profile() {
 
         return true;
     }
-    
+
     async function handleSubmit(e) {
         e.preventDefault();
 
@@ -82,16 +85,16 @@ export default function Profile() {
             if (!canSubmit()) {
                 return;
             }
-    
+
             const body = { firstName: fieldFirstName, lastName: fieldLastName };
-    
+
             setLoad(true);
             const result = await appFetch('post', '/users/profile', body);
             setLoad(false);
             alert(result.message);
         }
 
-        
+
     }
 
     return (
@@ -99,22 +102,25 @@ export default function Profile() {
             {load ?
                 <p>LOADING...</p>
                 :
-                <div>
-                    <h1>Profil</h1>
+                pageError ?
+                    <ErrorBlock errCode={pageError} />
+                    :
+                    <div>
+                        <h1>Profil</h1>
 
-                    <label>Prénom</label>
-                    <input value={fieldFirstName} onChange={handleChangeFirstName} required />
-                    {errFirstName !== "" && <p>{errFirstName}</p>}
+                        <label>Prénom</label>
+                        <input value={fieldFirstName} onChange={handleChangeFirstName} required />
+                        {errFirstName !== "" && <p>{errFirstName}</p>}
 
-                    <label>Nom</label>
-                    <input value={fieldLastName} onChange={handleChangeLastName} required />
-                    {errLastName !== "" && <p>{errLastName}</p>}
+                        <label>Nom</label>
+                        <input value={fieldLastName} onChange={handleChangeLastName} required />
+                        {errLastName !== "" && <p>{errLastName}</p>}
 
-                    {/* {fieldImagePath} */}
+                        {/* {fieldImagePath} */}
 
-                    <button onClick={handleSubmit}>Modifier les changements</button>
+                        <button onClick={handleSubmit}>Modifier les changements</button>
 
-                </div>
+                    </div>
             }
         </AuthLayout>
     );
