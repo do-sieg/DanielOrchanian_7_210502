@@ -36,28 +36,35 @@ export default function SignupForm({ onFetchStart, onFetchEnd }) {
     }
 
     function canSubmit() {
+
+        setErrFirstName("");
+        setErrLastName("");
+        setErrEmail("");
+        setErrPassword("");
+
+        let test = true;
         if (firstName === "") {
             setErrFirstName("Veuillez renseigner ce champ");
-            return false;
+            test = false;
         }
         if (lastName === "") {
             setErrLastName("Veuillez renseigner ce champ");
-            return false;
+            test = false;
         }
         if (email === "") {
             setErrEmail("Veuillez renseigner ce champ");
-            return false;
+            test = false;
         }
         if (!isValidEmail(email)) {
             setErrEmail("Cette adresse e-mail n'est pas valide");
-            return false;
+            test = false;
         }
         if (password === "") {
             setErrPassword("Veuillez renseigner ce champ");
-            return false;
+            test = false;
         }
 
-        return true;
+        return test;
     }
 
     async function handleSubmit(e) {

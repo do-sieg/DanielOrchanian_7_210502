@@ -18,6 +18,7 @@ export default function Header({ isAuthenticated = false }) {
             <p>LOGO</p>
             {isAuthenticated ?
                 <nav>
+                    <Link to="/posts">Posts</Link>
                     <Link to="/profile">Profil</Link>
                     <button onClick={handleLogout}>Déconnexion</button>
                 </nav>

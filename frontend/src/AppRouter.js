@@ -1,4 +1,5 @@
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import EditPost from './pages/EditPost';
 import Error404 from './pages/Error404';
 import Home from './pages/Home';
 import Posts from './pages/Posts';
@@ -11,6 +12,7 @@ export default function AppRouter() {
                 <Route exact path="/" component={Home} />
                 <Route path="/profile" component={Profile} />
                 <Route path="/posts" component={Posts} />
+                <Route path="/post_edit" component={EditPost} />
                 <Route component={Error404} />
             </Switch>
         </BrowserRouter>

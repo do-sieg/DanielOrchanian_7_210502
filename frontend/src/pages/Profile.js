@@ -64,18 +64,19 @@ export default function Profile() {
         setErrFirstName("");
         setErrLastName("");
 
+        let test = true;
         if (fieldFirstName === "") {
             setErrFirstName("Veuillez renseigner ce champ");
-            return false;
+            test = false;
         }
         if (fieldLastName === "") {
             setErrLastName("Veuillez renseigner ce champ");
-            return false;
+            test = false;
         }
 
         // IMAGE PATH
 
-        return true;
+        return test;
     }
 
     async function handleSubmit(e) {
@@ -90,7 +91,7 @@ export default function Profile() {
             const body = { firstName: fieldFirstName, lastName: fieldLastName };
 
             setLoad(true);
-            const result = await appFetch('post', '/users/profile', body);
+            const result = await appFetch('put', '/users/profile', body);
             setLoad(false);
             alert(result.message);
         }

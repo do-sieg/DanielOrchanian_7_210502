@@ -7,8 +7,8 @@ export default function LoginForm({ onFetchStart, onFetchEnd }) {
     // Fields
     // const [email, setEmail] = useState("");
     // const [password, setPassword] = useState("");
-    const [email, setEmail] = useState("test@test.test");
-    const [password, setPassword] = useState("123");
+    const [email, setEmail] = useState("test@test.test"); // TEST
+    const [password, setPassword] = useState("123"); // TEST
 
     // Validation Errors
     const [errEmail, setErrEmail] = useState("");
@@ -25,20 +25,24 @@ export default function LoginForm({ onFetchStart, onFetchEnd }) {
     }
 
     function canSubmit() {
+        setErrEmail("");
+        setErrPassword("");
+
+        let test = true;
         if (email === "") {
             setErrEmail("Veuillez renseigner ce champ");
-            return false;
+            test = false;
         }
         if (!isValidEmail(email)) {
             setErrEmail("Cette adresse e-mail n'est pas valide");
-            return false;
+            test = false;
         }
         if (password === "") {
             setErrPassword("Veuillez renseigner ce champ");
-            return false;
+            test = false;
         }
 
-        return true;
+        return test;
     }
 
     async function handleSubmit(e) {

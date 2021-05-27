@@ -3,36 +3,27 @@ import { auth } from '../middlewares/auth';
 import { handleServerError } from '../utils/errorHandler';
 import { decodeToken } from '../utils/token';
 import { getUserById, updateUser } from '../database/users';
+import { createPost, getAllPosts } from '../database/posts';
 
 const router = express.Router();
 
-router.get("/profile", auth, async (req, res, next) => {
+router.get("/", auth, async (req, res, next) => {
     try {
-        const decoded = decodeToken(req.accessToken);
-        const findUser = await getUserById(decoded.user_id, [
-            "user_first_name AS firstName",
-            "user_last_name AS lastName",
-            "user_image_path AS imagePath",
-        ]);
-        if (findUser) {
-            res.status(200).json({ data: findUser });
-        } else {
-            throw new Error();
-        }
+        const rows = await getAllPosts();
+        res.status(200).json({ data: rows });
     } catch (err) {
         handleServerError(req, res, err);
     }
 });
 
-router.put("/profile", auth, async (req, res, next) => {
+router.post("/", auth, async (req, res, next) => {
     try {
+        console.log(req.body);
         const decoded = decodeToken(req.accessToken);
         const findUser = await getUserById(decoded.user_id, ["user_id"]);
         if (findUser) {
-
-            await updateUser(findUser.user_id, req.body.firstName, req.body.lastName);
-
-            res.status(200).json({ message : "Updated user profile" });
+            await createPost(findUser.user_id, req.body.title, req.body.text);
+            res.status(200).json({ message : "Created post" });
         } else {
             res.status(404).json({ message: "Can't find user." });
         }
