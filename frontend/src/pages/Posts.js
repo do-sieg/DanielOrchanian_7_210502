@@ -9,24 +9,49 @@ import { deleteToken } from "../utils/token";
 
 
 function Post({ post, isReply = false }) {
+    console.log(post);
+
+    function renderUserInfo(firstName, lastName) {
+        return (
+            <div className="user-info">
+                <div className="user-avatar" style={getAvatarColorStyle(post.userFirstName)}>
+                    {post.userFirstName.slice(0, 1)}{post.userLastName.slice(0, 1)}
+                </div>
+                <span className="user-name">{firstName} {lastName}</span>
+            </div>
+        );
+    }
+
+    function getAvatarColorStyle(str) {
+        const base = str.toLowerCase().charCodeAt(0) - 97;
+        const hue = base * 10;
+        const backgroundColor = `hsl(${hue}, 50%, 80%)`;
+        const color = `hsl(${hue}, 50%, 30%)`;
+        return { backgroundColor, color };
+    }
+
     return (
         <div className="post-container">
-            {!isReply && <h2>{post.title}</h2>}
-            <div>
+            <div className="post-head">
                 {!isReply ?
-                    <span>Par <span className="user-name">{post.userFirstName} {post.userLastName}</span></span>
+                    <>
+                        <h2>{post.title}</h2>
+                        <span>Par {renderUserInfo(post.userFirstName, post.userLastName)}</span>
+                    </>
                     :
-                    <span><span className="user-name">{post.userFirstName} {post.userLastName}</span> a répondu</span>
+                    <span>{renderUserInfo(post.userFirstName, post.userLastName)} a répondu</span>
                 }
                 <time> le {post.creationDate}</time>
             </div>
-            <p>{post.text}</p>
+            <div className="post-body">
+                <p>{post.text}</p>
+            </div>
             {/* {post.imagePath} */}
 
             {!isReply &&
                 <div className="replies-list">
-                    {post.replies.map((reply, replyIndex) => {
-                        return <Post key={replyIndex} post={reply} isReply={true} />
+                    {post.replies.map((reply) => {
+                        return <Post key={reply.id} post={reply} isReply={true} />
                     })}
                 </div>
             }
@@ -34,19 +59,6 @@ function Post({ post, isReply = false }) {
     );
 }
 
-// function PostReply({ post }) {
-//     return (
-//         <div className="reply-post">
-//             <div>
-//                 <span><span className="user-name">{post.userFirstName} {post.userLastName}</span> a répondu</span>
-//                 <time> le {post.creationDate}</time>
-//             </div>
-//             {/* <h3>{post.title}</h3> */}
-//             <p>{post.text}</p>
-//             {/* {post.imagePath} */}
-//         </div>
-//     );
-// }
 
 export default function Posts() {
     const history = useHistory();
@@ -99,11 +111,8 @@ export default function Posts() {
                         <button onClick={handleStartPost}>Créer une publication</button>
 
                         <div className="posts-list">
-
-                            {postsList.map((post, index) => {
-                                console.log(post);
-
-                                return <Post key={index} post={post} />
+                            {postsList.map((post) => {
+                                return <Post key={post.id} post={post} />
                             })}
                         </div>
                     </>

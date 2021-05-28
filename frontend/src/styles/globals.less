@@ -72,22 +72,72 @@ nav {
 }
 
 .posts-list {
-    background-color: springgreen;
+    // background-color: springgreen;
 
     padding: 1rem 2rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
 
-.replies-list {
-    background-color: tomato;
-
-    padding: 1rem 2rem;
-}
 
 .post-container {
-    h2 {
-        margin: 0;
+    // align-items: center;
+
+    .post-head {
+        
+        padding: 0.5rem 1rem;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+
+        background-color: tomato;
+
+        h2 {
+            margin: 0;
+        }
+        .user-info {
+            // background-color: green;
+    
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin: 0 0.1rem;
+            .user-avatar {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 2.75rem;
+                height: 2.75rem;
+                border-radius: 50%;
+                font-weight: bold;
+                background-color: lightgrey;
+                color: grey;
+            }
+            .user-name {
+                font-weight: bold;
+            }
+        }
     }
-    .user-name {
-        font-weight: bold;
+
+
+    .post-body {
+        padding: 0.5rem 1rem;
+        border: 1px solid silver;
+        border-top: none;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+
+        p {
+            margin-left: 1rem;
+        }
+    }
+
+
+    
+    .replies-list {
+        // background-color: pink;
+
+        padding: 1rem 0 1rem 1rem;
     }
 }
