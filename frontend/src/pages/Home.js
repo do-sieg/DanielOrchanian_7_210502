@@ -13,10 +13,10 @@ export default function Home() {
     const [load, setLoad] = useState(true);
 
     useEffect(() => {
-        // console.log(getToken());
         if (checkTokenRedirect() === false) {
             setLoad(false);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     function checkTokenRedirect() {

@@ -17,7 +17,7 @@ export async function initPostsTable() {
         const result = await sqlQuery(`
             CREATE TABLE IF NOT EXISTS ${TABLE_NAME} (
                 post_id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-                post_parent_id INT(11),
+                post_parent_id INT(11) DEFAULT 0,
                 post_user_id INT(11),
                 post_title VARCHAR(255) NOT NULL,
                 post_text TEXT,
@@ -51,13 +51,40 @@ export async function initPostsTable() {
 //     }
 // }
 
-export async function getAllPosts(fields = SELECT_FIELDS) {
+async function getPostsByParentId(parentId, fields) {
     try {
-        const rows = await sqlQuery(`SELECT ${fields} FROM ${TABLE_NAME}`);
+        const joinTableName = 'users';
+        const rows = await sqlQuery(`
+            SELECT
+                ${TABLE_NAME}.${fields},
+                ${joinTableName}.user_first_name AS userFirstName,
+                ${joinTableName}.user_last_name AS userLastName
+            FROM ${TABLE_NAME}
+            JOIN ${joinTableName}
+            ON ${TABLE_NAME}.post_user_id = ${joinTableName}.user_id
+            WHERE post_parent_id = ${parentId}
+        `);
         return rows;
     } catch (err) {
         throw err;
     }
+}
+
+export async function getAllParentPosts(fields = SELECT_FIELDS) {
+    try {
+        const rows = await getPostsByParentId(0, fields);
+        for (const row of rows) {
+            const replies = await getReplies(row.id);
+            row.replies = replies;
+        }
+        return rows;
+    } catch (err) {
+        throw err;
+    }
+}
+
+export async function getReplies(parentId, fields = SELECT_FIELDS) {
+    return await getPostsByParentId(parentId, fields);
 }
 
 export async function createPost(userId, title, text) {

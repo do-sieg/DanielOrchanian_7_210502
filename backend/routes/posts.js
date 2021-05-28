@@ -2,14 +2,14 @@ import express from 'express';
 import { auth } from '../middlewares/auth';
 import { handleServerError } from '../utils/errorHandler';
 import { decodeToken } from '../utils/token';
-import { getUserById, updateUser } from '../database/users';
-import { createPost, getAllPosts } from '../database/posts';
+import { getUserById } from '../database/users';
+import { createPost, getAllParentPosts } from '../database/posts';
 
 const router = express.Router();
 
 router.get("/", auth, async (req, res, next) => {
     try {
-        const rows = await getAllPosts();
+        const rows = await getAllParentPosts();
         res.status(200).json({ data: rows });
     } catch (err) {
         handleServerError(req, res, err);

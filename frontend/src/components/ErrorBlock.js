@@ -1,14 +1,15 @@
 export default function ErrorBlock({ errCode }) {
 
     function getErrMessage() {
+        let msg = "Une erreur s'est produite";
         switch (parseInt(errCode, 10)) {
             case 404:
-                return "Page introuvable";
+                msg = "Page introuvable";
                 break;
             default:
-                return "Une erreur s'est produite";
                 break;
         }
+        return msg;
     }
 
     return (

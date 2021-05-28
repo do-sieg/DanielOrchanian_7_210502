@@ -60,3 +60,17 @@ nav button {
     transform: rotate(360deg);
   }
 }
+.posts-list {
+  background-color: springgreen;
+  padding: 1rem 2rem;
+}
+.replies-list {
+  background-color: tomato;
+  padding: 1rem 2rem;
+}
+.post-container h2 {
+  margin: 0;
+}
+.post-container .user-name {
+  font-weight: bold;
+}
