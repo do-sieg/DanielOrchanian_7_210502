@@ -31,11 +31,27 @@ router.get("/view/:id", auth, async (req, res, next) => {
 
 router.post("/", auth, async (req, res, next) => {
     try {
-        console.log(req.body);
         const decoded = decodeToken(req.accessToken);
         const findUser = await getUserById(decoded.user_id, ["user_id"]);
         if (findUser) {
             await createPost(findUser.user_id, req.body.title, req.body.text);
+            res.status(200).json({ message: "Created post" });
+        } else {
+            res.status(404).json({ message: "Can't find user." });
+        }
+    } catch (err) {
+        handleServerError(req, res, err);
+    }
+});
+
+
+router.post("/:id", auth, async (req, res, next) => {
+    try {
+        console.log(req.body, req.params);
+        const decoded = decodeToken(req.accessToken);
+        const findUser = await getUserById(decoded.user_id, ["user_id"]);
+        if (findUser) {
+            await createPost(findUser.user_id, req.body.title, req.body.text, req.params.id);
             res.status(200).json({ message: "Created post" });
         } else {
             res.status(404).json({ message: "Can't find user." });

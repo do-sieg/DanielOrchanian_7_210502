@@ -43,6 +43,27 @@ export default function PostView() {
         setLoad(false);
     }
 
+    async function handleSubmitReply(replyBody) {
+        
+
+        setLoad(true);
+        const result = await appFetch('post', `/posts/${post.id}`, replyBody);
+        if (result.status !== 200) {
+            if (result.status === 401) {
+                deleteToken();
+                history.push("/");
+            }
+            setPageError(result.status);
+            setLoad(false);
+            return;
+        }
+
+        await loadPost();
+
+        setLoad(false);
+        alert(result.message);
+    }
+
     return (
         <AuthLayout>
             {load ?
@@ -54,7 +75,7 @@ export default function PostView() {
                     <>
                         <div className="posts-list">
                             <>
-                                <Post key={post.id} post={post} />
+                                <Post key={post.id} post={post} onReply={handleSubmitReply} />
                                 <div className="post-actions">
                                     <Link to={`/post/${post.id}`}>Répondre</Link>
                                 </div>

@@ -1,5 +1,17 @@
+import { useState } from "react";
+import { appFetch } from "../utils/fetch";
+import AuthLayout from "./AuthLayout";
+import ErrorBlock from "./ErrorBlock";
+import Loader from "./Loader";
 
-export default function Post({ post, isReply = false }) {
+export default function Post({ post, isReply = false, onReply }) {
+
+    const [load, setLoad] = useState(false);
+    const [pageError, setPageError] = useState();
+
+    const [fieldReplyText, setFieldReplyText] = useState("");
+    // Validation Errors
+    const [errReplyText, setErrReplyText] = useState("");
 
     function renderUserInfo(firstName, lastName) {
         return (
@@ -20,6 +32,34 @@ export default function Post({ post, isReply = false }) {
         return { backgroundColor, color };
     }
 
+    function handleChangeReplyText(e) {
+        e.preventDefault();
+        setFieldReplyText(e.target.value);
+    }
+
+    function canSubmit() {
+        setErrReplyText("");
+
+        let test = true;
+        if (fieldReplyText === "") {
+            setErrReplyText("Veuillez renseigner ce champ");
+            test = false;
+        }
+
+        return test;
+    }
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+
+        if (!canSubmit()) {
+            return;
+        }
+
+        const body = { title: `Re: ${post.title}`, text: fieldReplyText };
+        onReply(body);
+    }
+
     return (
         <div className="post-container">
             <div className="post-head">
@@ -38,9 +78,6 @@ export default function Post({ post, isReply = false }) {
             </div>
             {/* {post.imagePath} */}
 
-
-
-
             {(!isReply && post.replies && post.replies.length > 0) &&
                 <>
                     <div className="replies-list">
@@ -49,11 +86,13 @@ export default function Post({ post, isReply = false }) {
                         })}
                     </div>
 
-                    {/* <div className="post-actions">
-                            <button onClick={handleStartReply}>Répondre</button>
-                    </div> */}
+                    <form>
+                        <textarea value={fieldReplyText} onChange={handleChangeReplyText}></textarea>
+                        {errReplyText !== "" && <p>{errReplyText}</p>}
+                        <button onClick={handleSubmit}>Répondre</button>
+                    </form>
                 </>
             }
-        </div>
+        </div >
     );
 }
