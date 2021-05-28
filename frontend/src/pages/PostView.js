@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import { useHistory, useRouteMatch } from "react-router";
 import { Link } from "react-router-dom";
 import AuthLayout from "../components/AuthLayout";
 import ErrorBlock from "../components/ErrorBlock";
@@ -8,29 +8,27 @@ import Post from "../components/Post";
 import { appFetch } from "../utils/fetch";
 import { deleteToken } from "../utils/token";
 
+export default function PostView() {
 
-
-
-
-
-export default function Posts() {
     const history = useHistory();
+    const match = useRouteMatch();
+    console.log(match.params.id);
 
-    // const [load, setLoad] = useState(true);
-    const [load, setLoad] = useState(false); // TEST
+    const [load, setLoad] = useState(true);
     const [pageError, setPageError] = useState();
 
+    const [post, setPost] = useState();
 
-    const [postsList, setPostsList] = useState([]);
+    // Vérifier si le fetch régle le mauvais param tout seul
 
     useEffect(() => {
-        loadPosts();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        loadPost();
     }, []);
 
-    async function loadPosts() {
+    async function loadPost() {
+
         setLoad(true);
-        const result = await appFetch('get', '/posts');
+        const result = await appFetch('get', `/posts/view/${match.params.id}`);
         if (result.status !== 200) {
             if (result.status === 401) {
                 deleteToken();
@@ -41,14 +39,8 @@ export default function Posts() {
             return;
         }
 
-        setPostsList(result.data);
+        setPost(result.data);
         setLoad(false);
-    }
-
-
-    function handleStartPost(e) {
-        e.preventDefault();
-        history.push("/post_edit");
     }
 
     return (
@@ -60,19 +52,13 @@ export default function Posts() {
                     <ErrorBlock errCode={pageError} />
                     :
                     <>
-                        <button onClick={handleStartPost}>Créer une publication</button>
-
                         <div className="posts-list">
-                            {postsList.map((post) => {
-                                return (
-                                    <>
-                                        <Post key={post.id} post={post} />
-                                        <div className="post-actions">
-                                            <Link to={`/post/${post.id}`}>Répondre</Link>
-                                        </div>
-                                    </>
-                                );
-                            })}
+                            <>
+                                <Post key={post.id} post={post} />
+                                <div className="post-actions">
+                                    <Link to={`/post/${post.id}`}>Répondre</Link>
+                                </div>
+                            </>
                         </div>
                     </>
             }

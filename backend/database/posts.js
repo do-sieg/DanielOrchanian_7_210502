@@ -3,7 +3,7 @@ import { sqlQuery } from "../utils/mysql";
 const TABLE_NAME = "posts";
 const SELECT_FIELDS = [
     "post_id AS id",
-    // "post_parent_id AS parentId",
+    "post_parent_id AS parentId",
     // "post_user_id AS userId",
     "post_title AS title",
     "post_text AS text",
@@ -42,14 +42,25 @@ export async function initPostsTable() {
 // }
 
 
-// export async function getUserById(userId, fields = SELECT_FIELDS) {
-//     try {
-//         const rows = await sqlQuery(`SELECT ${fields} FROM ${TABLE_NAME} WHERE user_id='${userId}'`);
-//         return rows.length > 0 ? rows[0] : null;
-//     } catch (err) {
-//         throw err;
-//     }
-// }
+export async function getParentPostById(postId, fields = SELECT_FIELDS) {
+    try {
+        const joinTableName = 'users';
+        const rows = await sqlQuery(`
+            SELECT
+                ${TABLE_NAME}.${fields},
+                ${joinTableName}.user_first_name AS userFirstName,
+                ${joinTableName}.user_last_name AS userLastName
+            FROM ${TABLE_NAME}
+            JOIN ${joinTableName}
+            ON ${TABLE_NAME}.post_user_id = ${joinTableName}.user_id
+            WHERE post_id=${postId}
+            AND post_parent_id = 0
+        `);
+        return rows.length > 0 ? rows[0] : null;
+    } catch (err) {
+        throw err;
+    }
+}
 
 async function getPostsByParentId(parentId, fields) {
     try {
@@ -73,11 +84,24 @@ async function getPostsByParentId(parentId, fields) {
 export async function getAllParentPosts(fields = SELECT_FIELDS) {
     try {
         const rows = await getPostsByParentId(0, fields);
-        for (const row of rows) {
-            const replies = await getReplies(row.id);
-            row.replies = replies;
-        }
+        // for (const row of rows) {
+        //     const replies = await getReplies(row.id);
+        //     row.replies = replies;
+        // }
         return rows;
+    } catch (err) {
+        throw err;
+    }
+}
+
+export async function getPostWithReplies(postId, fields = SELECT_FIELDS) {
+    try {
+        const post = await getParentPostById(postId, fields);
+        if (post !== null) {
+            const replies = await getReplies(postId, fields);
+            post.replies = replies;
+        }
+        return post;
     } catch (err) {
         throw err;
     }
