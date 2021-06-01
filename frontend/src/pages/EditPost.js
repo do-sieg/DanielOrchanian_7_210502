@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useHistory } from "react-router";
 import AuthLayout from "../components/AuthLayout";
 import ErrorBlock from "../components/ErrorBlock";
@@ -18,11 +18,12 @@ export default function EditPost() {
     const [fieldTitle, setFieldTitle] = useState("");
     const [fieldText, setFieldText] = useState("");
     const [imageFile, setImageFile] = useState();
-    const [imageFilename, setImageFilename] = useState("");
 
-    // // Validation Errors
+    // Validation Errors
     const [errTitle, setErrTitle] = useState("");
     const [errText, setErrText] = useState("");
+
+    const inputFile = useRef(null);
 
     function handleChangeTitle(e) {
         e.preventDefault();
@@ -60,7 +61,6 @@ export default function EditPost() {
         console.log(file);
         if (file) {
             setImageFile(file);
-            setImageFilename(file.name);
         }
 
         // if (file) {
@@ -73,6 +73,12 @@ export default function EditPost() {
         //     setImageFile(e.target.value);
         // }
 
+    }
+
+    function handleDeleteImage(e) {
+        e.preventDefault();
+        setImageFile(null);
+        inputFile.current.value = "";
     }
 
     async function handleSubmit(e) {
@@ -135,9 +141,12 @@ export default function EditPost() {
                         {errText !== "" && <p>{errText}</p>}
 
                         <label>Image</label>
-                        <input type="file" onChange={handleChangeImage}></input>
+                        <input type="file" ref={inputFile} onChange={handleChangeImage}></input>
                         {imageFile &&
-                            <img src={URL.createObjectURL(imageFile)} />
+                            <>
+                                <img src={URL.createObjectURL(imageFile)} />
+                                <button onClick={handleDeleteImage}>Annuler</button>
+                            </>
                         }
 
                         <button onClick={handleSubmit}>Créer</button>
