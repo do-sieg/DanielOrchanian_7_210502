@@ -44,10 +44,8 @@ export default function PostView() {
     }
 
     async function handleSubmitReply(replyBody) {
-        
-
         setLoad(true);
-        const result = await appFetch('post', `/posts/${post.id}`, replyBody);
+        const result = await appFetch('post', `/posts/reply/${post.id}`, replyBody);
         if (result.status !== 200) {
             if (result.status === 401) {
                 deleteToken();

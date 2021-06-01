@@ -4,6 +4,7 @@ import { handleServerError } from '../utils/errorHandler';
 import { decodeToken } from '../utils/token';
 import { getUserById } from '../database/users';
 import { createPost, getAllParentPosts, getPostWithReplies } from '../database/posts';
+import { midUploadImg } from '../middlewares/midMulter';
 
 const router = express.Router();
 
@@ -29,12 +30,25 @@ router.get("/view/:id", auth, async (req, res, next) => {
     }
 });
 
-router.post("/", auth, async (req, res, next) => {
+router.post("/", auth, midUploadImg, async (req, res, next) => {
     try {
         const decoded = decodeToken(req.accessToken);
         const findUser = await getUserById(decoded.user_id, ["user_id"]);
         if (findUser) {
-            await createPost(findUser.user_id, req.body.title, req.body.text);
+
+            console.log(req.file);
+            console.log(req.body);
+
+
+            let body = req.body;
+            let imagePath = "";
+            if (req.file) {
+                body = JSON.parse(req.body.data);
+                imagePath = req.file.filename;
+            }
+
+            await createPost(0, findUser.user_id, body.title, body.text, imagePath);
+            
             res.status(200).json({ message: "Created post" });
         } else {
             res.status(404).json({ message: "Can't find user." });
@@ -45,13 +59,12 @@ router.post("/", auth, async (req, res, next) => {
 });
 
 
-router.post("/:id", auth, async (req, res, next) => {
+router.post("/reply/:id", auth, async (req, res, next) => {
     try {
-        console.log(req.body, req.params);
         const decoded = decodeToken(req.accessToken);
         const findUser = await getUserById(decoded.user_id, ["user_id"]);
         if (findUser) {
-            await createPost(findUser.user_id, req.body.title, req.body.text, req.params.id);
+            await createPost(req.params.id, findUser.user_id, req.body.title, req.body.text);
             res.status(200).json({ message: "Created post" });
         } else {
             res.status(404).json({ message: "Can't find user." });
@@ -60,5 +73,6 @@ router.post("/:id", auth, async (req, res, next) => {
         handleServerError(req, res, err);
     }
 });
+
 
 export default router;

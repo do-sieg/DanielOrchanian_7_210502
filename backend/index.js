@@ -22,8 +22,8 @@ app.use((req, res, next) => {
     next();
 });
 
-// Manage static requests for the /images route
-app.use('/images', express.static(path.join(__dirname, 'images')));
+// Manage static requests for the /public route
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.use(router);

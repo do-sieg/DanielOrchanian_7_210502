@@ -5,6 +5,7 @@ import ErrorBlock from "../components/ErrorBlock";
 import Loader from "../components/Loader";
 import { appFetch } from "../utils/fetch";
 import { deleteToken } from "../utils/token";
+import { uploadFile } from "../utils/upload";
 
 
 
@@ -16,6 +17,8 @@ export default function EditPost() {
 
     const [fieldTitle, setFieldTitle] = useState("");
     const [fieldText, setFieldText] = useState("");
+    const [imageFile, setImageFile] = useState();
+    const [imageFilename, setImageFilename] = useState("");
 
     // // Validation Errors
     const [errTitle, setErrTitle] = useState("");
@@ -48,6 +51,30 @@ export default function EditPost() {
         return test;
     }
 
+    async function handleChangeImage(e) {
+        e.preventDefault();
+
+        const file = Array.from(e.target.files)[0];
+
+
+        console.log(file);
+        if (file) {
+            setImageFile(file);
+            setImageFilename(file.name);
+        }
+
+        // if (file) {
+        //     const result = await uploadFile("/posts/image", file);
+
+        //     console.log({result});
+
+        //     setImageFile(result.data);
+        // } else {
+        //     setImageFile(e.target.value);
+        // }
+
+    }
+
     async function handleSubmit(e) {
         e.preventDefault();
 
@@ -55,11 +82,17 @@ export default function EditPost() {
             return;
         }
 
-        const body = { title: fieldTitle, text: fieldText };
+        let body = { title: fieldTitle, text: fieldText };
 
         setLoad(true);
 
-        const result = await appFetch('post', '/posts', body);
+        let result;
+        if (imageFile) {
+            result = await uploadFile("/posts", imageFile, body);
+        } else {
+            result = await appFetch('post', '/posts', body);
+        }
+
 
         if (result.status !== 200) {
             if (result.status === 401) {
@@ -100,6 +133,12 @@ export default function EditPost() {
                         <label>Texte</label>
                         <textarea value={fieldText} onChange={handleChangeText} required></textarea>
                         {errText !== "" && <p>{errText}</p>}
+
+                        <label>Image</label>
+                        <input type="file" onChange={handleChangeImage}></input>
+                        {imageFile &&
+                            <img src={URL.createObjectURL(imageFile)} />
+                        }
 
                         <button onClick={handleSubmit}>Créer</button>
                         <button onClick={handleCancel}>Annuler</button>

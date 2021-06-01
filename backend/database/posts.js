@@ -111,11 +111,11 @@ export async function getReplies(parentId, fields = SELECT_FIELDS) {
     return await getPostsByParentId(parentId, fields);
 }
 
-export async function createPost(userId, title, text, parentId = 0) {
+export async function createPost(parentId, userId, title, text, imagePath) {
     try {
         const result = await sqlQuery(`
-            INSERT INTO ${TABLE_NAME} (post_user_id, post_title, post_text, post_parent_id)
-            VALUES ('${userId}', '${title}', '${text}', ${parentId})
+            INSERT INTO ${TABLE_NAME} (post_parent_id, post_user_id, post_title, post_text, post_image_path)
+            VALUES (${parentId}, '${userId}', '${title}', '${text}', '${imagePath}')
         `);
         return result.insertId;
     } catch (err) {
