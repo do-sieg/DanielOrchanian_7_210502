@@ -119,9 +119,6 @@ export async function deletePost(postId) {
         if (postId <= 0) {
             throw new Error("Invalid post id");
         }
-        
-        // suppression image
-        
         await sqlQuery(`
             DELETE FROM ${TABLE_NAME}
             WHERE post_id = ${postId} OR post_parent_id = ${postId}

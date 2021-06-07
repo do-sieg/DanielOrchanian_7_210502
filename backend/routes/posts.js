@@ -1,3 +1,4 @@
+import fs from 'fs';
 import express from 'express';
 import { auth, isOwner } from '../middlewares/auth';
 import { handleServerError } from '../utils/errorHandler';
@@ -71,9 +72,19 @@ router.post("/reply/:id", auth, async (req, res, next) => {
 
 router.delete("/:id", auth, async (req, res, next) => {
     try {
-        const findPost = await getPostById(req.params.id, ["post_id", "post_user_id"]);
+        const findPost = await getPostById(req.params.id, ["post_id", "post_user_id", "post_image_path"]);
         if (findPost) {
             if (isOwner(req, res, findPost.post_user_id)) {
+
+                console.log(findPost.post_image_path);
+
+                if (findPost.post_image_path) {
+                    fs.unlink(`public/images/${findPost.post_image_path}`, (err) => {
+                        if (err) throw err;
+                    });
+                }
+
+
                 await deletePost(findPost.post_id);
                 res.status(200).json({ message: "Deleted post" });
             } else {
