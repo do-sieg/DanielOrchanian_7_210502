@@ -13,7 +13,6 @@ router.get("/profile", auth, async (req, res, next) => {
         const findUser = await getUserById(decoded.user_id, [
             "user_first_name AS firstName",
             "user_last_name AS lastName",
-            "user_image_path AS imagePath",
         ]);
         if (findUser) {
             res.status(200).json({ data: findUser });

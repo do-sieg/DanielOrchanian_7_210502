@@ -5,9 +5,12 @@ import ErrorBlock from "../components/ErrorBlock";
 import Loader from "../components/Loader";
 import { appFetch } from "../utils/fetch";
 import { deleteToken } from "../utils/token";
+import { useSnackbar } from "notistack";
+
 
 export default function Profile() {
     const history = useHistory();
+    const { enqueueSnackbar } = useSnackbar();
 
     const [load, setLoad] = useState(true);
     const [pageError, setPageError] = useState();
@@ -74,8 +77,6 @@ export default function Profile() {
             test = false;
         }
 
-        // IMAGE PATH
-
         return test;
     }
 
@@ -93,7 +94,8 @@ export default function Profile() {
             setLoad(true);
             const result = await appFetch('put', '/users/profile', body);
             setLoad(false);
-            alert(result.message);
+
+            enqueueSnackbar(result.message, { variant: result.status === 200 ? 'success' : 'error' });
         }
     }
 
@@ -130,11 +132,8 @@ export default function Profile() {
                         <input value={fieldLastName} onChange={handleChangeLastName} required />
                         {errLastName !== "" && <p>{errLastName}</p>}
 
-                        {/* {fieldImagePath} */}
-
                         <button onClick={handleSubmit}>Modifier les changements</button>
                         <button onClick={handleDelete}>Supprimer le compte</button>
-
                     </div>
             }
         </AuthLayout>

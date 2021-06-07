@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { appFetch } from "../utils/fetch";
-import AuthLayout from "./AuthLayout";
-import ErrorBlock from "./ErrorBlock";
-import Loader from "./Loader";
+// import { appFetch } from "../utils/fetch";
+// import AuthLayout from "./AuthLayout";
+// import ErrorBlock from "./ErrorBlock";
+// import Loader from "./Loader";
 
-export default function Post({ post, isReply = false, onReply }) {
+export default function Post({ post, isReply = false, onReply, onDelete }) {
 
-    const [load, setLoad] = useState(false);
-    const [pageError, setPageError] = useState();
+    // const [load, setLoad] = useState(false);
+    // const [pageError, setPageError] = useState();
 
     const [fieldReplyText, setFieldReplyText] = useState("");
     // Validation Errors
@@ -27,9 +27,9 @@ export default function Post({ post, isReply = false, onReply }) {
     function getAvatarColorStyle(str) {
         const base = str.toLowerCase().charCodeAt(0) - 97;
         const hue = base * 10;
-        const backgroundColor = `hsl(${hue}, 50%, 80%)`;
+        const backgroundImage = `linear-gradient(175, hsl(${hue}, 50%, 85%), hsl(${hue}, 50%, 75%))`;
         const color = `hsl(${hue}, 50%, 30%)`;
-        return { backgroundColor, color };
+        return { backgroundImage, color };
     }
 
     function handleChangeReplyText(e) {
@@ -60,6 +60,11 @@ export default function Post({ post, isReply = false, onReply }) {
         onReply(body);
     }
 
+    async function handleDeletePost(e, postId) {
+        e.preventDefault();
+        onDelete(postId);
+    }
+
     return (
         <div className="post-container">
             <div className="post-head">
@@ -72,6 +77,8 @@ export default function Post({ post, isReply = false, onReply }) {
                     <span>{renderUserInfo(post.userFirstName, post.userLastName)} a répondu</span>
                 }
                 <time> le {post.creationDate}</time>
+
+                <button onClick={(e) => handleDeletePost(e, post.id)}>Delete</button>
             </div>
             <div className="post-body">
                 <p>{post.text}</p>

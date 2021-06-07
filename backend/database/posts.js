@@ -32,17 +32,7 @@ export async function initPostsTable() {
 }
 
 
-// export async function getUserByEmail(email, fields = SELECT_FIELDS) {
-//     try {
-//         const rows = await sqlQuery(`SELECT ${fields} FROM ${TABLE_NAME} WHERE user_email='${email}'`);
-//         return rows.length > 0 ? rows[0] : null;
-//     } catch (err) {
-//         throw err;
-//     }
-// }
-
-
-export async function getParentPostById(postId, fields = SELECT_FIELDS) {
+export async function getPostById(postId, fields = SELECT_FIELDS) {
     try {
         const joinTableName = 'users';
         const rows = await sqlQuery(`
@@ -54,13 +44,18 @@ export async function getParentPostById(postId, fields = SELECT_FIELDS) {
             JOIN ${joinTableName}
             ON ${TABLE_NAME}.post_user_id = ${joinTableName}.user_id
             WHERE post_id=${postId}
-            AND post_parent_id = 0
         `);
         return rows.length > 0 ? rows[0] : null;
     } catch (err) {
         throw err;
     }
 }
+
+
+
+
+
+
 
 async function getPostsByParentId(parentId, fields) {
     try {
@@ -84,10 +79,6 @@ async function getPostsByParentId(parentId, fields) {
 export async function getAllParentPosts(fields = SELECT_FIELDS) {
     try {
         const rows = await getPostsByParentId(0, fields);
-        // for (const row of rows) {
-        //     const replies = await getReplies(row.id);
-        //     row.replies = replies;
-        // }
         return rows;
     } catch (err) {
         throw err;
@@ -96,7 +87,7 @@ export async function getAllParentPosts(fields = SELECT_FIELDS) {
 
 export async function getPostWithReplies(postId, fields = SELECT_FIELDS) {
     try {
-        const post = await getParentPostById(postId, fields);
+        const post = await getPostById(postId, fields);
         if (post !== null) {
             const replies = await getReplies(postId, fields);
             post.replies = replies;
@@ -123,16 +114,20 @@ export async function createPost(parentId, userId, title, text, imagePath) {
     }
 }
 
-// export async function updateUser(id, firstName, lastName) {
-//     try {
-//         await sqlQuery(`
-//             UPDATE ${TABLE_NAME} SET
-//             user_first_name = '${firstName}',
-//             user_last_name = '${lastName}'
-//             WHERE user_id = ${id}
-//         `);
-//         return true;
-//     } catch (err) {
-//         throw err;
-//     }
-// }
+export async function deletePost(postId) {
+    try {
+        if (postId <= 0) {
+            throw new Error("Invalid post id");
+        }
+        
+        // suppression image
+        
+        await sqlQuery(`
+            DELETE FROM ${TABLE_NAME}
+            WHERE post_id = ${postId} OR post_parent_id = ${postId}
+        `);
+        return true;
+    } catch (err) {
+        throw err;
+    }
+}

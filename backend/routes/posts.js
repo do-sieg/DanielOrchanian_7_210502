@@ -3,7 +3,7 @@ import { auth } from '../middlewares/auth';
 import { handleServerError } from '../utils/errorHandler';
 import { decodeToken } from '../utils/token';
 import { getUserById } from '../database/users';
-import { createPost, getAllParentPosts, getPostWithReplies } from '../database/posts';
+import { createPost, deletePost, getAllParentPosts, getPostById, getPostWithReplies } from '../database/posts';
 import { midUploadImg } from '../middlewares/midMulter';
 
 const router = express.Router();
@@ -35,11 +35,6 @@ router.post("/", auth, midUploadImg, async (req, res, next) => {
         const decoded = decodeToken(req.accessToken);
         const findUser = await getUserById(decoded.user_id, ["user_id"]);
         if (findUser) {
-
-            console.log(req.file);
-            console.log(req.body);
-
-
             let body = req.body;
             let imagePath = "";
             if (req.file) {
@@ -74,5 +69,19 @@ router.post("/reply/:id", auth, async (req, res, next) => {
     }
 });
 
+router.delete("/:id", auth, async (req, res, next) => {
+    try {
+        const findPost = await getPostById(req.params.id, ["post_id"]);
+        if (findPost) {
+            await deletePost(findPost.post_id);
+            res.status(200).json({ message: "Deleted post" });
+        } else {
+            res.status(404).json({ message: "Can't find post." });
+        }
+
+    } catch (err) {
+        handleServerError(req, res, err);
+    }
+});
 
 export default router;

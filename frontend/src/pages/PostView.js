@@ -62,6 +62,24 @@ export default function PostView() {
         alert(result.message);
     }
 
+    async function handleDeletePost(postId) {
+        if (window.confirm("Voulez-vous vraiment supprimer ce message ?")) {
+            setLoad(true);
+            const result = await appFetch('delete', `/posts/${postId}`);
+            if (result.status !== 200) {
+                if (result.status === 401) {
+                    deleteToken();
+                    history.push("/");
+                }
+                setPageError(result.status);
+                setLoad(false);
+                return;
+            }
+            history.push("/posts");
+            setLoad(false);
+        }
+    }
+
     return (
         <AuthLayout>
             {load ?
@@ -73,7 +91,7 @@ export default function PostView() {
                     <>
                         <div className="posts-list">
                             <>
-                                <Post key={post.id} post={post} onReply={handleSubmitReply} />
+                                <Post key={post.id} post={post} onReply={handleSubmitReply} onDelete={handleDeletePost} />
                                 <div className="post-actions">
                                     <Link to={`/post/${post.id}`}>Répondre</Link>
                                 </div>

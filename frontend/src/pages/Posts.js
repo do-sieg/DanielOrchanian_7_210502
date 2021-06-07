@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import AuthLayout from "../components/AuthLayout";
@@ -7,10 +7,7 @@ import Loader from "../components/Loader";
 import Post from "../components/Post";
 import { appFetch } from "../utils/fetch";
 import { deleteToken } from "../utils/token";
-
-
-
-
+import { FaPlusSquare } from "react-icons/fa";
 
 
 export default function Posts() {
@@ -51,6 +48,26 @@ export default function Posts() {
         history.push("/post_edit");
     }
 
+    async function handleDeletePost(postId) {
+        if (window.confirm("Voulez-vous vraiment supprimer ce message ?")) {
+            setLoad(true);
+            const result = await appFetch('delete', `/posts/${postId}`);
+            if (result.status !== 200) {
+                if (result.status === 401) {
+                    deleteToken();
+                    history.push("/");
+                }
+                setPageError(result.status);
+                setLoad(false);
+                return;
+            }
+
+            await loadPosts();
+
+            setLoad(false);
+        }
+    }
+
     return (
         <AuthLayout>
             {load ?
@@ -60,17 +77,19 @@ export default function Posts() {
                     <ErrorBlock errCode={pageError} />
                     :
                     <>
-                        <button onClick={handleStartPost}>Créer une publication</button>
 
                         <div className="posts-list">
+                            <div className="post-actions">
+                                <button className="btn btn-success" onClick={handleStartPost}><FaPlusSquare /> Créer une publication</button>
+                            </div>
                             {postsList.map((post) => {
                                 return (
-                                    <>
-                                        <Post key={post.id} post={post} />
+                                    <React.Fragment key={post.id}>
+                                        <Post post={post} onDelete={handleDeletePost} />
                                         <div className="post-actions">
                                             <Link to={`/post/${post.id}`}>Répondre</Link>
                                         </div>
-                                    </>
+                                    </React.Fragment>
                                 );
                             })}
                         </div>

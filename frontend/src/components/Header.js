@@ -20,7 +20,7 @@ export default function Header({ isAuthenticated = false }) {
                 <nav>
                     <Link to="/posts">Posts</Link>
                     <Link to="/profile">Profil</Link>
-                    <button onClick={handleLogout}>Déconnexion</button>
+                    <a href="#" onClick={handleLogout}>Déconnexion</a>
                 </nav>
                 :
                 "NOPE"

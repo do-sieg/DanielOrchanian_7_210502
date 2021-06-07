@@ -50,7 +50,7 @@ export async function getUserById(userId, fields = SELECT_FIELDS) {
     }
 }
 
-export async function createUser(firstName, lastName, email, password, imagePath) {
+export async function createUser(firstName, lastName, email, password) {
     try {
         const result = await sqlQuery(`
             INSERT INTO ${TABLE_NAME} (user_first_name, user_last_name, user_email, user_password)
