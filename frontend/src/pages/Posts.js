@@ -8,6 +8,7 @@ import Post from "../components/Post";
 import { appFetch } from "../utils/fetch";
 import { deleteToken } from "../utils/token";
 import { FaPlusSquare } from "react-icons/fa";
+import { useSnackbar } from "notistack";
 
 
 export default function Posts() {
@@ -17,8 +18,9 @@ export default function Posts() {
     const [load, setLoad] = useState(false); // TEST
     const [pageError, setPageError] = useState();
 
-
     const [postsList, setPostsList] = useState([]);
+
+    const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
         loadPosts();
@@ -57,10 +59,14 @@ export default function Posts() {
                     deleteToken();
                     history.push("/");
                 }
-                setPageError(result.status);
+                // setPageError(result.status);
+                enqueueSnackbar(result.message, { variant: 'error' });
+
                 setLoad(false);
                 return;
             }
+
+            enqueueSnackbar(result.message, { variant: 'success' });
 
             await loadPosts();
 

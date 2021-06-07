@@ -1,5 +1,5 @@
 import express from 'express';
-import { auth } from '../middlewares/auth';
+import { auth, isOwner } from '../middlewares/auth';
 import { handleServerError } from '../utils/errorHandler';
 import { decodeToken } from '../utils/token';
 import { getUserById } from '../database/users';
@@ -43,7 +43,7 @@ router.post("/", auth, midUploadImg, async (req, res, next) => {
             }
 
             await createPost(0, findUser.user_id, body.title, body.text, imagePath);
-            
+
             res.status(200).json({ message: "Created post" });
         } else {
             res.status(404).json({ message: "Can't find user." });
@@ -71,14 +71,17 @@ router.post("/reply/:id", auth, async (req, res, next) => {
 
 router.delete("/:id", auth, async (req, res, next) => {
     try {
-        const findPost = await getPostById(req.params.id, ["post_id"]);
+        const findPost = await getPostById(req.params.id, ["post_id", "post_user_id"]);
         if (findPost) {
-            await deletePost(findPost.post_id);
-            res.status(200).json({ message: "Deleted post" });
+            if (isOwner(req, res, findPost.post_user_id)) {
+                await deletePost(findPost.post_id);
+                res.status(200).json({ message: "Deleted post" });
+            } else {
+                res.status(403).json({ message: "Not authorized for this action." });
+            }
         } else {
             res.status(404).json({ message: "Can't find post." });
         }
-
     } catch (err) {
         handleServerError(req, res, err);
     }

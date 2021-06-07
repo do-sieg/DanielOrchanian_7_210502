@@ -35,7 +35,7 @@ export function isOwner(req, res, userIdToCheck) {
             // Decode token
             const decoded = jwt.decode(token, process.env.JWT_SECRET_KEY);
             // Compare user ID
-            return decoded.userId === userIdToCheck;
+            return decoded.user_id === userIdToCheck;
         } else {
             throw new Error("Missing token");
         }
