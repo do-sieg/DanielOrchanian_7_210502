@@ -1,13 +1,7 @@
 import { useState } from "react";
-// import { appFetch } from "../utils/fetch";
-// import AuthLayout from "./AuthLayout";
-// import ErrorBlock from "./ErrorBlock";
-// import Loader from "./Loader";
+import Linkify from "react-linkify";
 
 export default function Post({ post, isReply = false, onReply, onDelete }) {
-
-    // const [load, setLoad] = useState(false);
-    // const [pageError, setPageError] = useState();
 
     const [fieldReplyText, setFieldReplyText] = useState("");
     // Validation Errors
@@ -81,9 +75,11 @@ export default function Post({ post, isReply = false, onReply, onDelete }) {
                 <button onClick={(e) => handleDeletePost(e, post.id)}>Delete</button>
             </div>
             <div className="post-body">
-                <p>{post.text}</p>
+                <Linkify><p>{post.text}</p></Linkify>
+                {post.imagePath &&
+                    <img src={`http://localhost:5000/public/images/${post.imagePath}`} />
+                }
             </div>
-            {/* {post.imagePath} */}
 
             {(!isReply && post.replies && post.replies.length > 0) &&
                 <>
