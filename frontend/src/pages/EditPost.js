@@ -16,6 +16,7 @@ export default function EditPost() {
     const [load, setLoad] = useState(false);
     const [pageError, setPageError] = useState();
 
+    const [isReply, setIsReply] = useState(false);
     const [fieldTitle, setFieldTitle] = useState("");
     const [fieldText, setFieldText] = useState("");
     const [imageFilePath, setImageFilePath] = useState("");
@@ -35,7 +36,7 @@ export default function EditPost() {
 
     async function loadPost(postId) {
         setLoad(true);
-        const result = await appFetch('get', `/posts/view/${params.id}`);
+        const result = await appFetch('get', `/posts/view/${postId}`);
         if (result.status !== 200) {
             if (result.status === 401) {
                 deleteToken();
@@ -44,6 +45,10 @@ export default function EditPost() {
             setPageError(result.status);
             setLoad(false);
             return;
+        }
+
+        if (result.data.parentId !== 0) {
+            setIsReply(true);
         }
 
         setFieldTitle(result.data.title);
@@ -92,7 +97,6 @@ export default function EditPost() {
         setNewImageFile(null);
         if (imageFilePath) {
             if (window.confirm("Voulez-vous vraiment supprimer l'image du post ?")) {
-
                 setImageFilePath(null);
             }
         }
@@ -156,22 +160,32 @@ export default function EditPost() {
                     :
                     <form>
                         <label>Titre</label>
-                        <input value={fieldTitle} onChange={handleChangeTitle} required />
-                        {errTitle !== "" && <p>{errTitle}</p>}
+                        {!isReply ?
+                            <>
+                                <input value={fieldTitle} onChange={handleChangeTitle} required />
+                                {errTitle !== "" && <p>{errTitle}</p>}
+                            </>
+                            :
+                            <p>{fieldTitle}</p>
+                        }
 
                         <label>Texte</label>
                         <textarea value={fieldText} onChange={handleChangeText} required></textarea>
                         {errText !== "" && <p>{errText}</p>}
 
-                        <label>Image</label>
-                        <input type="file" ref={inputFile} onChange={handleChangeImage}></input>
-                        {newImageFile ?
-                            <img src={URL.createObjectURL(newImageFile)} alt="" />
-                            :
-                            imageFilePath &&
-                            <img src={`http://localhost:5000/public/images/${imageFilePath}`} alt="" />
+                        {!isReply &&
+                            <>
+                                <label>Image</label>
+                                <input type="file" ref={inputFile} onChange={handleChangeImage}></input>
+                                {newImageFile ?
+                                    <img src={URL.createObjectURL(newImageFile)} alt="" />
+                                    :
+                                    imageFilePath &&
+                                    <img src={`http://localhost:5000/public/images/${imageFilePath}`} alt="" />
+                                }
+                                {(newImageFile || imageFilePath) && <button onClick={handleDeleteImage}>Supprimer</button>}
+                            </>
                         }
-                        {(newImageFile || imageFilePath) && <button onClick={handleDeleteImage}>Supprimer</button>}
                         <button onClick={handleSubmit}>Créer</button>
                         <button onClick={handleCancel}>Annuler</button>
                     </form>
