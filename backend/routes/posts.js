@@ -69,7 +69,7 @@ router.put("/:id", auth, midUploadImg, async (req, res, next) => {
                     if (req.file) {
                         if (findPost.post_image_path) {
                             fs.unlink(`public/images/${findPost.post_image_path}`, (err) => {
-                                if (err) throw err;
+                                if (err) console.error(err);
                             });
                         }
                         body = JSON.parse(req.body.data);
@@ -77,7 +77,7 @@ router.put("/:id", auth, midUploadImg, async (req, res, next) => {
                     } else {
                         if (findPost.post_image_path && !body.imagePath) {
                             fs.unlink(`public/images/${findPost.post_image_path}`, (err) => {
-                                if (err) throw err;
+                                if (err) console.error(err);
                             });
                         }
                     }
@@ -123,7 +123,7 @@ router.delete("/:id", auth, async (req, res, next) => {
 
                 if (findPost.post_image_path) {
                     fs.unlink(`public/images/${findPost.post_image_path}`, (err) => {
-                        if (err) throw err;
+                        if (err) console.error(err);
                     });
                 }
 
