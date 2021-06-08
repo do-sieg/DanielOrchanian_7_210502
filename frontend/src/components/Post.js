@@ -60,9 +60,9 @@ export default function Post({ post, isReply = false, onReply, onEdit, onDelete 
         onEdit(postId);
     }
 
-    async function handleDeletePost(e, postId) {
+    async function handleDeletePost(e, postId, parentId) {
         e.preventDefault();
-        onDelete(postId);
+        onDelete(postId, parentId);
     }
 
     return (
@@ -79,7 +79,7 @@ export default function Post({ post, isReply = false, onReply, onEdit, onDelete 
                 <time> le {dateToString(post.creationDate, 'D/M/YY')}</time>
 
                 <button onClick={(e) => handleEditPost(e, post.id)}>Edit</button>
-                <button onClick={(e) => handleDeletePost(e, post.id)}>Delete</button>
+                <button onClick={(e) => handleDeletePost(e, post.id, post.parentId)}>Delete</button>
             </div>
             <div className="post-body">
                 <Linkify><p>{post.text}</p></Linkify>

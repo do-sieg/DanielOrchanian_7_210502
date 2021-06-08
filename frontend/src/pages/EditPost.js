@@ -142,12 +142,21 @@ export default function EditPost() {
         setLoad(false);
         alert(result.message);
 
-        history.push("/posts");
+        history.push((
+            history.location.state && history.location.state.fromPostView) ?
+            `/post/${history.location.state.fromPostView}`
+            :
+            "/posts");
     }
 
     function handleCancel(e) {
         e.preventDefault();
-        history.push("/posts");
+        // history.push("/posts");
+        history.push((
+            history.location.state && history.location.state.fromPostView) ?
+            `/post/${history.location.state.fromPostView}`
+            :
+            "/posts");
     }
 
     return (

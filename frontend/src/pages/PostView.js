@@ -62,10 +62,13 @@ export default function PostView() {
     }
 
     function handleEditPost(postId) {
-        history.push(`/post_edit/${postId}`);
+        history.push({
+            pathname: `/post_edit/${postId}`,
+            state: { fromPostView: params.id },
+        });
     }
 
-    async function handleDeletePost(postId) {
+    async function handleDeletePost(postId, parentId) {
         if (window.confirm("Voulez-vous vraiment supprimer ce message ?")) {
             setLoad(true);
             const result = await appFetch('delete', `/posts/${postId}`);
@@ -78,7 +81,10 @@ export default function PostView() {
                 setLoad(false);
                 return;
             }
-            history.push("/posts");
+
+            if (parentId === 0) {
+                history.push("/posts");
+            }
             setLoad(false);
         }
     }
