@@ -99,16 +99,9 @@ export default function PostView() {
                 pageError ?
                     <ErrorBlock errCode={pageError} />
                     :
-                    <>
-                        <div className="posts-list">
-                            <>
-                                <Post key={post.id} post={post} onReply={handleSubmitReply} onEdit={handleEditPost} onDelete={handleDeletePost} />
-                                <div className="post-actions">
-                                    <Link to={`/post/${post.id}`}>Répondre</Link>
-                                </div>
-                            </>
-                        </div>
-                    </>
+                    <div className="posts-list">
+                        <Post key={post.id} post={post} onReply={handleSubmitReply} onEdit={handleEditPost} onDelete={handleDeletePost} />
+                    </div>
             }
         </AuthLayout>
     );
