@@ -115,6 +115,22 @@ export async function createPost(parentId, userId, title, text, imagePath = "") 
 }
 
 
+export async function editPost(postId, title, text, imagePath = "") {
+    try {
+        await sqlQuery(`
+            UPDATE ${TABLE_NAME} SET
+            post_title = '${title}',
+            post_text = '${text}',
+            post_image_path = '${imagePath}'
+            WHERE post_id = ${postId}
+        `);
+        return true;
+    } catch (err) {
+        throw err;
+    }
+}
+
+
 export async function deletePost(postId) {
     try {
         if (postId <= 0) {

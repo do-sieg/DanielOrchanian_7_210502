@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { useHistory } from "react-router";
+import { useEffect, useRef, useState } from "react";
+import { useHistory, useParams } from "react-router";
 import AuthLayout from "../components/AuthLayout";
 import ErrorBlock from "../components/ErrorBlock";
 import Loader from "../components/Loader";
@@ -11,19 +11,46 @@ import { uploadFile } from "../utils/upload";
 
 export default function EditPost() {
     const history = useHistory();
+    const params = useParams();
 
     const [load, setLoad] = useState(false);
     const [pageError, setPageError] = useState();
 
     const [fieldTitle, setFieldTitle] = useState("");
     const [fieldText, setFieldText] = useState("");
-    const [imageFile, setImageFile] = useState();
+    const [imageFilePath, setImageFilePath] = useState("");
+    const [newImageFile, setNewImageFile] = useState();
 
     // Validation Errors
     const [errTitle, setErrTitle] = useState("");
     const [errText, setErrText] = useState("");
 
     const inputFile = useRef(null);
+
+    useEffect(() => {
+        if (params.id) {
+            loadPost(params.id);
+        }
+    }, [params.id]);
+
+    async function loadPost(postId) {
+        setLoad(true);
+        const result = await appFetch('get', `/posts/view/${params.id}`);
+        if (result.status !== 200) {
+            if (result.status === 401) {
+                deleteToken();
+                history.push("/");
+            }
+            setPageError(result.status);
+            setLoad(false);
+            return;
+        }
+
+        setFieldTitle(result.data.title);
+        setFieldText(result.data.text);
+        setImageFilePath(result.data.imagePath);
+        setLoad(false);
+    }
 
     function handleChangeTitle(e) {
         e.preventDefault();
@@ -54,30 +81,21 @@ export default function EditPost() {
 
     async function handleChangeImage(e) {
         e.preventDefault();
-
         const file = Array.from(e.target.files)[0];
-
-
-        console.log(file);
         if (file) {
-            setImageFile(file);
+            setNewImageFile(file);
         }
-
-        // if (file) {
-        //     const result = await uploadFile("/posts/image", file);
-
-        //     console.log({result});
-
-        //     setImageFile(result.data);
-        // } else {
-        //     setImageFile(e.target.value);
-        // }
-
     }
 
     function handleDeleteImage(e) {
         e.preventDefault();
-        setImageFile(null);
+        setNewImageFile(null);
+        if (imageFilePath) {
+            if (window.confirm("Voulez-vous vraiment supprimer l'image du post ?")) {
+
+                setImageFilePath(null);
+            }
+        }
         inputFile.current.value = "";
     }
 
@@ -93,11 +111,18 @@ export default function EditPost() {
         setLoad(true);
 
         let result;
-        if (imageFile) {
-            result = await uploadFile("/posts", imageFile, body);
-        } else {
-            result = await appFetch('post', '/posts', body);
+        let method = 'post';
+        let url = '/posts';
+        if (params.id) {
+            method = 'put';
+            url = `/posts/${params.id}`;
         }
+        if (newImageFile) {
+            result = await uploadFile(method, url, newImageFile, body);
+        } else {
+            result = await appFetch(method, url, body);
+        }
+
 
 
         if (result.status !== 200) {
@@ -114,8 +139,6 @@ export default function EditPost() {
         alert(result.message);
 
         history.push("/posts");
-
-
     }
 
     function handleCancel(e) {
@@ -142,13 +165,13 @@ export default function EditPost() {
 
                         <label>Image</label>
                         <input type="file" ref={inputFile} onChange={handleChangeImage}></input>
-                        {imageFile &&
-                            <>
-                                <img src={URL.createObjectURL(imageFile)} />
-                                <button onClick={handleDeleteImage}>Annuler</button>
-                            </>
+                        {newImageFile ?
+                            <img src={URL.createObjectURL(newImageFile)} alt="" />
+                            :
+                            imageFilePath &&
+                            <img src={`http://localhost:5000/public/images/${imageFilePath}`} alt="" />
                         }
-
+                        {(newImageFile || imageFilePath) && <button onClick={handleDeleteImage}>Supprimer</button>}
                         <button onClick={handleSubmit}>Créer</button>
                         <button onClick={handleCancel}>Annuler</button>
                     </form>

@@ -4,7 +4,7 @@ import { auth, isOwner } from '../middlewares/auth';
 import { handleServerError } from '../utils/errorHandler';
 import { decodeToken } from '../utils/token';
 import { getUserById } from '../database/users';
-import { createPost, deletePost, getAllParentPosts, getPostById, getPostWithReplies } from '../database/posts';
+import { createPost, deletePost, editPost, getAllParentPosts, getPostById, getPostWithReplies } from '../database/posts';
 import { midUploadImg } from '../middlewares/midMulter';
 
 const router = express.Router();
@@ -55,6 +55,51 @@ router.post("/", auth, midUploadImg, async (req, res, next) => {
 });
 
 
+router.put("/:id", auth, midUploadImg, async (req, res, next) => {
+    try {
+
+        const findPost = await getPostById(req.params.id, ["post_id", "post_user_id", "post_image_path"]);
+        if (findPost) {
+            if (isOwner(req, res, findPost.post_user_id)) {
+                const decoded = decodeToken(req.accessToken);
+                const findUser = await getUserById(decoded.user_id, ["user_id"]);
+                if (findUser) {
+                    let body = req.body;
+                    let imagePath = "";
+                    if (req.file) {
+                        if (findPost.post_image_path) {
+                            fs.unlink(`public/images/${findPost.post_image_path}`, (err) => {
+                                if (err) throw err;
+                            });
+                        }
+                        body = JSON.parse(req.body.data);
+                        imagePath = req.file.filename;
+                    } else {
+                        if (findPost.post_image_path && !body.imagePath) {
+                            fs.unlink(`public/images/${findPost.post_image_path}`, (err) => {
+                                if (err) throw err;
+                            });
+                        }
+                    }
+                    await editPost(req.params.id, body.title, body.text, imagePath);
+
+                    res.status(200).json({ message: "Updated post" });
+                } else {
+                    res.status(404).json({ message: "Can't find user." });
+                }
+            } else {
+                res.status(403).json({ message: "Not authorized for this action." });
+            }
+        } else {
+            res.status(404).json({ message: "Can't find post." });
+        }
+
+    } catch (err) {
+        handleServerError(req, res, err);
+    }
+});
+
+
 router.post("/reply/:id", auth, async (req, res, next) => {
     try {
         const decoded = decodeToken(req.accessToken);
@@ -76,14 +121,11 @@ router.delete("/:id", auth, async (req, res, next) => {
         if (findPost) {
             if (isOwner(req, res, findPost.post_user_id)) {
 
-                console.log(findPost.post_image_path);
-
                 if (findPost.post_image_path) {
                     fs.unlink(`public/images/${findPost.post_image_path}`, (err) => {
                         if (err) throw err;
                     });
                 }
-
 
                 await deletePost(findPost.post_id);
                 res.status(200).json({ message: "Deleted post" });

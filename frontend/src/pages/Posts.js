@@ -49,6 +49,10 @@ export default function Posts() {
         history.push("/post_edit");
     }
 
+    function handleEditPost(postId) {
+        history.push(`/post_edit/${postId}`);
+    }
+
     async function handleDeletePost(postId) {
         if (window.confirm("Voulez-vous vraiment supprimer ce message ?")) {
             setLoad(true);
@@ -90,7 +94,7 @@ export default function Posts() {
                             {postsList.map((post) => {
                                 return (
                                     <React.Fragment key={post.id}>
-                                        <Post post={post} onDelete={handleDeletePost} />
+                                        <Post post={post} onEdit={handleEditPost} onDelete={handleDeletePost} />
                                         <div className="post-actions">
                                             <Link to={`/post/${post.id}`}>Répondre</Link>
                                         </div>

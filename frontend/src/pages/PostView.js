@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useHistory, useRouteMatch } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import AuthLayout from "../components/AuthLayout";
 import ErrorBlock from "../components/ErrorBlock";
@@ -11,8 +11,7 @@ import { deleteToken } from "../utils/token";
 export default function PostView() {
 
     const history = useHistory();
-    const match = useRouteMatch();
-    console.log(match.params.id);
+    const params = useParams();
 
     const [load, setLoad] = useState(true);
     const [pageError, setPageError] = useState();
@@ -28,7 +27,7 @@ export default function PostView() {
     async function loadPost() {
 
         setLoad(true);
-        const result = await appFetch('get', `/posts/view/${match.params.id}`);
+        const result = await appFetch('get', `/posts/view/${params.id}`);
         if (result.status !== 200) {
             if (result.status === 401) {
                 deleteToken();
@@ -62,6 +61,10 @@ export default function PostView() {
         alert(result.message);
     }
 
+    function handleEditPost(postId) {
+        history.push(`/post_edit/${postId}`);
+    }
+
     async function handleDeletePost(postId) {
         if (window.confirm("Voulez-vous vraiment supprimer ce message ?")) {
             setLoad(true);
@@ -91,7 +94,7 @@ export default function PostView() {
                     <>
                         <div className="posts-list">
                             <>
-                                <Post key={post.id} post={post} onReply={handleSubmitReply} onDelete={handleDeletePost} />
+                                <Post key={post.id} post={post} onReply={handleSubmitReply} onEdit={handleEditPost} onDelete={handleDeletePost} />
                                 <div className="post-actions">
                                     <Link to={`/post/${post.id}`}>Répondre</Link>
                                 </div>

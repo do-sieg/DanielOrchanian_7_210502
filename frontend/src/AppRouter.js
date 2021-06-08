@@ -13,7 +13,8 @@ export default function AppRouter() {
                 <Route exact path="/" component={Home} />
                 <Route path="/profile" component={Profile} />
                 <Route path="/posts" component={Posts} />
-                <Route path="/post_edit" component={EditPost} />
+                <Route path="/post_edit/:id" component={EditPost} />
+                <Route path="/post_edit/" component={EditPost} />
                 <Route path={`/post/:id`} component={PostView} />
                 <Route component={Error404} />
             </Switch>

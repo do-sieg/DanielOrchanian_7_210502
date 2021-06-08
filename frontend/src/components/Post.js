@@ -2,7 +2,7 @@ import { useState } from "react";
 import Linkify from "react-linkify";
 import { dateToString } from "../utils/date";
 
-export default function Post({ post, isReply = false, onReply, onDelete }) {
+export default function Post({ post, isReply = false, onReply, onEdit, onDelete }) {
 
     const [fieldReplyText, setFieldReplyText] = useState("");
     // Validation Errors
@@ -55,6 +55,11 @@ export default function Post({ post, isReply = false, onReply, onDelete }) {
         onReply(body);
     }
 
+    async function handleEditPost(e, postId) {
+        e.preventDefault();
+        onEdit(postId);
+    }
+
     async function handleDeletePost(e, postId) {
         e.preventDefault();
         onDelete(postId);
@@ -73,11 +78,11 @@ export default function Post({ post, isReply = false, onReply, onDelete }) {
                 }
                 <time> le {dateToString(post.creationDate, 'D/M/YY')}</time>
 
+                <button onClick={(e) => handleEditPost(e, post.id)}>Edit</button>
                 <button onClick={(e) => handleDeletePost(e, post.id)}>Delete</button>
             </div>
             <div className="post-body">
                 <Linkify><p>{post.text}</p></Linkify>
-                {post.imagePath}
                 {post.imagePath &&
                     <img src={`http://localhost:5000/public/images/${post.imagePath}`} />
                 }
@@ -88,7 +93,7 @@ export default function Post({ post, isReply = false, onReply, onDelete }) {
                     {(post.replies && post.replies.length > 0) &&
                         <div className="replies-list">
                             {post.replies.map((reply) => {
-                                return <Post key={reply.id} post={reply} isReply={true} />
+                                return <Post key={reply.id} post={reply} isReply={true} onEdit={onEdit} onDelete={onDelete} />
                             })}
                         </div>
                     }
