@@ -42,10 +42,11 @@ export default function Home() {
             {load ?
                 <Loader />
                 :
-                <>
+                <div className="home-container">
                     <SignupForm onFetchStart={handleStartLoad} onFetchEnd={handleEndLoad} />
+                    <p>OU</p>
                     <LoginForm onFetchStart={handleStartLoad} onFetchEnd={handleEndLoad} />
-                </>
+                </div>
             }
         </GuestLayout>
     );

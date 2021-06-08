@@ -126,11 +126,94 @@ nav {
     to { transform: rotate(360deg); }
 }
 
-.posts-list {
-    // background-color: springgreen;
-
+form {
     padding: 1rem 2rem;
+    // background: violet;
+    label {
+        display: block;
+        margin: 0.5rem 0;
+        font-size: large;
+        font-weight: 500;
+    }
+    input, textarea {
+        width: 100%;
+        padding: 0.5rem;
+        font-family: inherit;
+        + label {
+            margin-top: 2rem;
+        }
+        resize: none;
+    }
+    input {
+        height: 32px;
+    }
+    textarea {
+        height: 64px;
+    }
+    button {
+        min-width: 80px;
+        padding: 0.5rem 1rem;
+        font-family: inherit;
+        font-size: medium;
+        font-weight: 500;
+        cursor: pointer;
+        // border: 1px solid grey;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.2s;
+        .box-shadow(1px, 3px, #000a);
+        &.success {
+            color: #fff;
+            background-color: hsl(125, 50%, 50%);
+            &:hover {
+                background-color: hsl(125, 50%, 60%);
+            }
+        }
+        &.danger {
+            color: #fff;
+            background-color: hsl(0, 50%, 50%);
+            &:hover {
+                background-color: hsl(0, 50%, 60%);
+            }
+        }
+    }
+    .form-error {
+        margin-bottom: 2rem;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        background-color: hsl(0, 50%, 50%);
+        color: #fff;
+    }
+    .actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+    }
+}
 
+.home-container {
+    display: flex;
+    flex-direction: row;
+    form {
+        flex: 1;
+    }
+    p {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 3rem;
+        height: 3rem;
+        margin: auto;
+        border-radius: 50%;
+        font-size: large;
+        font-weight: 500;
+        color: #fff;
+        background: hsl(125, 20%, 60%);
+    }
+}
+
+.posts-list {
+    padding: 1rem 2rem;
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -138,7 +221,8 @@ nav {
 
 
 .post-container {
-    // align-items: center;
+    position: relative;
+    border-radius: 5px;
 
     .post-head {
         
@@ -146,18 +230,25 @@ nav {
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
 
-        background-color: tomato;
+        background: @header-bg;
+        color: #fff;
+        .box-shadow(2px, 5px, #0006);
 
         h2 {
             margin: 0;
+            .text-shadow(2px, 2px, #0006);
+        }
+
+        .post-info {
+            display: flex;
+            align-items: baseline;
         }
         .user-info {
             // background-color: green;
     
             display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-            margin: 0 0.1rem;
+            align-items: baseline;
+            gap: 0.35rem;
             .user-avatar {
                 display: flex;
                 align-items: center;
@@ -167,6 +258,7 @@ nav {
                 border-radius: 50%;
                 font-size: smaller;
                 font-weight: bold;
+                text-transform: uppercase;
                 background-color: lightgrey;
                 color: grey;
                 .box-shadow(2px, 5px, #0006);
@@ -180,13 +272,35 @@ nav {
 
     .post-body {
         padding: 0.5rem 1rem;
-        border: 1px solid silver;
+        // border: 1px solid silver;
         border-top: none;
         border-bottom-left-radius: 5px;
         border-bottom-right-radius: 5px;
+        .box-shadow(2px, 5px, #0006);
 
         p {
             margin-left: 1rem;
+        }
+    }
+
+    .post-actions {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        display: flex;
+        gap: 5px;
+        button {
+            // background-color: #fff;
+            width: 1.5rem;
+            height: 1.5rem;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            .box-shadow(2px, 5px, #0006);
         }
     }
 
@@ -196,5 +310,21 @@ nav {
         // background-color: pink;
 
         padding: 1rem 0 1rem 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        .post-container {
+            .box-shadow(2px, 5px, #0006);
+            .post-head {
+                background: none;
+                color: unset;
+                box-shadow: unset;
+            }
+            .post-body {
+                box-shadow: unset;
+            }
+        }
+
     }
 }

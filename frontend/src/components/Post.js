@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaEdit, FaTimes } from "react-icons/fa";
 import Linkify from "react-linkify";
 import { dateToString } from "../utils/date";
 
@@ -9,6 +10,7 @@ export default function Post({ post, isReply = false, onReply, onEdit, onDelete 
     const [errReplyText, setErrReplyText] = useState("");
 
     function renderUserInfo(firstName, lastName) {
+        console.log(getAvatarColorStyle(post.userFirstName));
         return (
             <div className="user-info">
                 <div className="user-avatar" style={getAvatarColorStyle(post.userFirstName)}>
@@ -22,9 +24,10 @@ export default function Post({ post, isReply = false, onReply, onEdit, onDelete 
     function getAvatarColorStyle(str) {
         const base = str.toLowerCase().charCodeAt(0) - 97;
         const hue = base * 10;
-        const backgroundImage = `linear-gradient(175, hsl(${hue}, 50%, 85%), hsl(${hue}, 50%, 75%))`;
+        // const background = `linear-gradient(175, hsl(${hue}, 50%, 85%), hsl(${hue}, 50%, 75%))`;
+        const background = `hsl(${hue}, 30%, 80%)`;
         const color = `hsl(${hue}, 50%, 30%)`;
-        return { backgroundImage, color };
+        return { background, color };
     }
 
     function handleChangeReplyText(e) {
@@ -68,28 +71,37 @@ export default function Post({ post, isReply = false, onReply, onEdit, onDelete 
     return (
         <div className="post-container">
             <div className="post-head">
-                {!isReply ?
-                    <>
-                        <h2>{post.title}</h2>
-                        <span>Par {renderUserInfo(post.userFirstName, post.userLastName)}</span>
-                    </>
-                    :
-                    <span>{renderUserInfo(post.userFirstName, post.userLastName)} a répondu</span>
-                }
-                <time> le {dateToString(post.creationDate, 'D/M/YY')}</time>
+                {!isReply && <h2>{post.title}</h2>}
+                <div className="post-info">
+                    {!isReply ?
+                        <span>Par {renderUserInfo(post.userFirstName, post.userLastName)},</span>
+                        :
+                        <span>{renderUserInfo(post.userFirstName, post.userLastName)} a répondu</span>
+                    }
+                    <time>&nbsp;le {dateToString(post.creationDate, 'D/M/YY')}</time>
+                </div>
 
-                <button onClick={(e) => handleEditPost(e, post.id)}>Edit</button>
-                <button onClick={(e) => handleDeletePost(e, post.id, post.parentId)}>Delete</button>
             </div>
             <div className="post-body">
                 <Linkify><p>{post.text}</p></Linkify>
-                {post.imagePath &&
+                {(post.imagePath && !isReply) &&
                     <img src={`http://localhost:5000/public/images/${post.imagePath}`} />
                 }
+            </div>
+            <div className="post-actions">
+                <button onClick={(e) => handleEditPost(e, post.id)}><FaEdit /></button>
+                <button onClick={(e) => handleDeletePost(e, post.id, post.parentId)}><FaTimes /></button>
             </div>
 
             {!isReply &&
                 <>
+                    {onReply &&
+                        <form>
+                            <textarea value={fieldReplyText} onChange={handleChangeReplyText}></textarea>
+                            {errReplyText !== "" && <p className="form-error">{errReplyText}</p>}
+                            <button onClick={handleSubmit}>Répondre</button>
+                        </form>
+                    }
                     {(post.replies && post.replies.length > 0) &&
                         <div className="replies-list">
                             {post.replies.map((reply) => {
@@ -98,13 +110,6 @@ export default function Post({ post, isReply = false, onReply, onEdit, onDelete 
                         </div>
                     }
 
-                    {onReply &&
-                        <form>
-                            <textarea value={fieldReplyText} onChange={handleChangeReplyText}></textarea>
-                            {errReplyText !== "" && <p>{errReplyText}</p>}
-                            <button onClick={handleSubmit}>Répondre</button>
-                        </form>
-                    }
                 </>
             }
         </div >

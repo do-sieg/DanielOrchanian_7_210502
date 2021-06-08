@@ -119,20 +119,22 @@ export default function Profile() {
                 pageError ?
                     <ErrorBlock errCode={pageError} />
                     :
-                    <div>
+                    <form>
                         <h1>Profil</h1>
 
                         <label>Prénom</label>
                         <input value={fieldFirstName} onChange={handleChangeFirstName} required />
-                        {errFirstName !== "" && <p>{errFirstName}</p>}
+                        {errFirstName !== "" && <p className="form-error">{errFirstName}</p>}
 
                         <label>Nom</label>
                         <input value={fieldLastName} onChange={handleChangeLastName} required />
-                        {errLastName !== "" && <p>{errLastName}</p>}
+                        {errLastName !== "" && <p className="form-error">{errLastName}</p>}
 
-                        <button onClick={handleSubmit}>Modifier les changements</button>
-                        <button onClick={handleDelete}>Supprimer le compte</button>
-                    </div>
+                        <div className="actions">
+                            <button className="success" onClick={handleSubmit}>Modifier les changements</button>
+                            <button className="danger" onClick={handleDelete}>Supprimer le compte</button>
+                        </div>
+                    </form>
             }
         </AuthLayout>
     );

@@ -172,7 +172,7 @@ export default function EditPost() {
                         {!isReply ?
                             <>
                                 <input value={fieldTitle} onChange={handleChangeTitle} required />
-                                {errTitle !== "" && <p>{errTitle}</p>}
+                                {errTitle !== "" && <p className="form-error">{errTitle}</p>}
                             </>
                             :
                             <p>{fieldTitle}</p>
@@ -180,7 +180,7 @@ export default function EditPost() {
 
                         <label>Texte</label>
                         <textarea value={fieldText} onChange={handleChangeText} required></textarea>
-                        {errText !== "" && <p>{errText}</p>}
+                        {errText !== "" && <p className="form-error">{errText}</p>}
 
                         {!isReply &&
                             <>
@@ -195,8 +195,10 @@ export default function EditPost() {
                                 {(newImageFile || imageFilePath) && <button onClick={handleDeleteImage}>Supprimer</button>}
                             </>
                         }
-                        <button onClick={handleSubmit}>Créer</button>
-                        <button onClick={handleCancel}>Annuler</button>
+                        <div className="actions">
+                            <button className="success" onClick={handleSubmit}>Créer</button>
+                            <button className="danger" onClick={handleCancel}>Annuler</button>
+                        </div>
                     </form>
             }
         </AuthLayout>

@@ -70,13 +70,13 @@ export default function LoginForm({ onFetchStart, onFetchEnd }) {
         <form>
             <label>E-mail</label>
             <input value={email} onChange={handleChangeEmail} required />
-            {errEmail !== "" && <p>{errEmail}</p>}
+            {errEmail !== "" && <p className="form-error">{errEmail}</p>}
 
             <label>Mot de passe</label>
             <input type="password" value={password} onChange={handleChangePassword} required />
-            {errPassword !== "" && <p>{errPassword}</p>}
+            {errPassword !== "" && <p className="form-error">{errPassword}</p>}
 
-            <button onClick={handleSubmit}>Se connecter</button>
+            <button className="success" onClick={handleSubmit}>Se connecter</button>
         </form>
     );
 }

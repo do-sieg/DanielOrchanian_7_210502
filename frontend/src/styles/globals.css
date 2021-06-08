@@ -101,26 +101,120 @@ nav a:active {
     transform: rotate(360deg);
   }
 }
+form {
+  padding: 1rem 2rem;
+}
+form label {
+  display: block;
+  margin: 0.5rem 0;
+  font-size: large;
+  font-weight: 500;
+}
+form input,
+form textarea {
+  width: 100%;
+  padding: 0.5rem;
+  font-family: inherit;
+  resize: none;
+}
+form input + label,
+form textarea + label {
+  margin-top: 2rem;
+}
+form input {
+  height: 32px;
+}
+form textarea {
+  height: 64px;
+}
+form button {
+  min-width: 80px;
+  padding: 0.5rem 1rem;
+  font-family: inherit;
+  font-size: medium;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+  box-shadow: #000a 1px 1px 3px;
+}
+form button.success {
+  color: #fff;
+  background-color: hsl(125, 50%, 50%);
+}
+form button.success:hover {
+  background-color: hsl(125, 50%, 60%);
+}
+form button.danger {
+  color: #fff;
+  background-color: hsl(0, 50%, 50%);
+}
+form button.danger:hover {
+  background-color: hsl(0, 50%, 60%);
+}
+form .form-error {
+  margin-bottom: 2rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  background-color: hsl(0, 50%, 50%);
+  color: #fff;
+}
+form .actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+.home-container {
+  display: flex;
+  flex-direction: row;
+}
+.home-container form {
+  flex: 1;
+}
+.home-container p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  margin: auto;
+  border-radius: 50%;
+  font-size: large;
+  font-weight: 500;
+  color: #fff;
+  background: hsl(125, 20%, 60%);
+}
 .posts-list {
   padding: 1rem 2rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
+.post-container {
+  position: relative;
+  border-radius: 5px;
+}
 .post-container .post-head {
   padding: 0.5rem 1rem;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  background-color: tomato;
+  background: linear-gradient(155deg, hsl(32, 50%, 50%), hsl(32, 50%, 30%));
+  color: #fff;
+  box-shadow: #0006 2px 2px 5px;
 }
 .post-container .post-head h2 {
   margin: 0;
+  text-shadow: #0006 2px 2px 2px;
+}
+.post-container .post-head .post-info {
+  display: flex;
+  align-items: baseline;
 }
 .post-container .post-head .user-info {
   display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  margin: 0 0.1rem;
+  align-items: baseline;
+  gap: 0.35rem;
 }
 .post-container .post-head .user-info .user-avatar {
   display: flex;
@@ -131,6 +225,7 @@ nav a:active {
   border-radius: 50%;
   font-size: smaller;
   font-weight: bold;
+  text-transform: uppercase;
   background-color: lightgrey;
   color: grey;
   box-shadow: #0006 2px 2px 5px;
@@ -140,14 +235,47 @@ nav a:active {
 }
 .post-container .post-body {
   padding: 0.5rem 1rem;
-  border: 1px solid silver;
   border-top: none;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+  box-shadow: #0006 2px 2px 5px;
 }
 .post-container .post-body p {
   margin-left: 1rem;
 }
+.post-container .post-actions {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: flex;
+  gap: 5px;
+}
+.post-container .post-actions button {
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: #0006 2px 2px 5px;
+}
 .post-container .replies-list {
   padding: 1rem 0 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.post-container .replies-list .post-container {
+  box-shadow: #0006 2px 2px 5px;
+}
+.post-container .replies-list .post-container .post-head {
+  background: none;
+  color: unset;
+  box-shadow: unset;
+}
+.post-container .replies-list .post-container .post-body {
+  box-shadow: unset;
 }

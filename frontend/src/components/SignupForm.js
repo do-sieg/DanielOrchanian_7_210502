@@ -88,21 +88,21 @@ export default function SignupForm({ onFetchStart, onFetchEnd }) {
         <form>
             <label>Prénom</label>
             <input value={firstName} onChange={handleChangeFirstName} required />
-            {errFirstName !== "" && <p>{errFirstName}</p>}
+            {errFirstName !== "" && <p className="form-error">{errFirstName}</p>}
 
             <label>Nom</label>
             <input value={lastName} onChange={handleChangeLastName} required />
-            {errLastName !== "" && <p>{errLastName}</p>}
+            {errLastName !== "" && <p className="form-error">{errLastName}</p>}
 
             <label>E-mail</label>
             <input value={email} onChange={handleChangeEmail} required />
-            {errEmail !== "" && <p>{errEmail}</p>}
+            {errEmail !== "" && <p className="form-error">{errEmail}</p>}
 
             <label>Mot de passe</label>
             <input type="password" value={password} onChange={handleChangePassword} required />
-            {errPassword !== "" && <p>{errPassword}</p>}
+            {errPassword !== "" && <p className="form-error">{errPassword}</p>}
 
-            <button onClick={handleSubmit}>S'inscrire</button>
+            <button className="success" onClick={handleSubmit}>S'inscrire</button>
         </form>
     );
 }
