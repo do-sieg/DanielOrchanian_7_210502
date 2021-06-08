@@ -77,6 +77,7 @@ export default function Post({ post, isReply = false, onReply, onDelete }) {
             </div>
             <div className="post-body">
                 <Linkify><p>{post.text}</p></Linkify>
+                {post.imagePath}
                 {post.imagePath &&
                     <img src={`http://localhost:5000/public/images/${post.imagePath}`} />
                 }
@@ -92,11 +93,13 @@ export default function Post({ post, isReply = false, onReply, onDelete }) {
                         </div>
                     }
 
-                    <form>
-                        <textarea value={fieldReplyText} onChange={handleChangeReplyText}></textarea>
-                        {errReplyText !== "" && <p>{errReplyText}</p>}
-                        <button onClick={handleSubmit}>Répondre</button>
-                    </form>
+                    {onReply &&
+                        <form>
+                            <textarea value={fieldReplyText} onChange={handleChangeReplyText}></textarea>
+                            {errReplyText !== "" && <p>{errReplyText}</p>}
+                            <button onClick={handleSubmit}>Répondre</button>
+                        </form>
+                    }
                 </>
             }
         </div >

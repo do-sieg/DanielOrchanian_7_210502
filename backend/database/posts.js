@@ -21,7 +21,7 @@ export async function initPostsTable() {
                 post_user_id INT(11),
                 post_title VARCHAR(255) NOT NULL,
                 post_text TEXT,
-                post_image_path VARCHAR(255) DEFAULT "",
+                post_image_path VARCHAR(255),
                 post_creation_date DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         `);
@@ -102,7 +102,7 @@ export async function getPostWithReplies(postId, fields = SELECT_FIELDS) {
 }
 
 
-export async function createPost(parentId, userId, title, text, imagePath) {
+export async function createPost(parentId, userId, title, text, imagePath = "") {
     try {
         const result = await sqlQuery(`
             INSERT INTO ${TABLE_NAME} (post_parent_id, post_user_id, post_title, post_text, post_image_path)
