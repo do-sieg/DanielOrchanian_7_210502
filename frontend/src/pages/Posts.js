@@ -14,8 +14,7 @@ import { useSnackbar } from "notistack";
 export default function Posts() {
     const history = useHistory();
 
-    // const [load, setLoad] = useState(true);
-    const [load, setLoad] = useState(false); // TEST
+    const [load, setLoad] = useState(true);
     const [pageError, setPageError] = useState();
 
     const [postsList, setPostsList] = useState([]);

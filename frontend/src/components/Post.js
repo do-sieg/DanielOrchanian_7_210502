@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Linkify from "react-linkify";
+import { dateToString } from "../utils/date";
 
 export default function Post({ post, isReply = false, onReply, onDelete }) {
 
@@ -70,7 +71,7 @@ export default function Post({ post, isReply = false, onReply, onDelete }) {
                     :
                     <span>{renderUserInfo(post.userFirstName, post.userLastName)} a répondu</span>
                 }
-                <time> le {post.creationDate}</time>
+                <time> le {dateToString(post.creationDate, 'D/M/YY')}</time>
 
                 <button onClick={(e) => handleDeletePost(e, post.id)}>Delete</button>
             </div>
@@ -81,13 +82,15 @@ export default function Post({ post, isReply = false, onReply, onDelete }) {
                 }
             </div>
 
-            {(!isReply && post.replies && post.replies.length > 0) &&
+            {!isReply &&
                 <>
-                    <div className="replies-list">
-                        {post.replies.map((reply) => {
-                            return <Post key={reply.id} post={reply} isReply={true} />
-                        })}
-                    </div>
+                    {(post.replies && post.replies.length > 0) &&
+                        <div className="replies-list">
+                            {post.replies.map((reply) => {
+                                return <Post key={reply.id} post={reply} isReply={true} />
+                            })}
+                        </div>
+                    }
 
                     <form>
                         <textarea value={fieldReplyText} onChange={handleChangeReplyText}></textarea>

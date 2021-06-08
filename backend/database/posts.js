@@ -21,7 +21,7 @@ export async function initPostsTable() {
                 post_user_id INT(11),
                 post_title VARCHAR(255) NOT NULL,
                 post_text TEXT,
-                post_image_path VARCHAR(255),
+                post_image_path VARCHAR(255) DEFAULT "",
                 post_creation_date DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         `);
@@ -52,12 +52,7 @@ export async function getPostById(postId, fields = SELECT_FIELDS) {
 }
 
 
-
-
-
-
-
-async function getPostsByParentId(parentId, fields) {
+async function getPostsByParentId(parentId, fields, order = "asc") {
     try {
         const joinTableName = 'users';
         const rows = await sqlQuery(`
@@ -69,6 +64,7 @@ async function getPostsByParentId(parentId, fields) {
             JOIN ${joinTableName}
             ON ${TABLE_NAME}.post_user_id = ${joinTableName}.user_id
             WHERE post_parent_id = ${parentId}
+            ORDER BY post_creation_date ${order}
         `);
         return rows;
     } catch (err) {
@@ -76,14 +72,21 @@ async function getPostsByParentId(parentId, fields) {
     }
 }
 
+
 export async function getAllParentPosts(fields = SELECT_FIELDS) {
     try {
-        const rows = await getPostsByParentId(0, fields);
+        const rows = await getPostsByParentId(0, fields, "desc");
         return rows;
     } catch (err) {
         throw err;
     }
 }
+
+
+export async function getReplies(parentId, fields = SELECT_FIELDS) {
+    return await getPostsByParentId(parentId, fields, "asc");
+}
+
 
 export async function getPostWithReplies(postId, fields = SELECT_FIELDS) {
     try {
@@ -98,9 +101,6 @@ export async function getPostWithReplies(postId, fields = SELECT_FIELDS) {
     }
 }
 
-export async function getReplies(parentId, fields = SELECT_FIELDS) {
-    return await getPostsByParentId(parentId, fields);
-}
 
 export async function createPost(parentId, userId, title, text, imagePath) {
     try {
@@ -113,6 +113,7 @@ export async function createPost(parentId, userId, title, text, imagePath) {
         throw err;
     }
 }
+
 
 export async function deletePost(postId) {
     try {
