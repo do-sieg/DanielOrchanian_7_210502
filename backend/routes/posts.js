@@ -43,9 +43,13 @@ router.post("/", auth, midUploadImg, async (req, res, next) => {
                 imagePath = req.file.filename;
             }
 
-            await createPost(0, findUser.user_id, body.title, body.text, imagePath);
+            if (!body.text || !body.title) {
+                res.status(400).json({ message: "Missing parameters." });
+            } else {
+                await createPost(0, findUser.user_id, body.title, body.text, imagePath);
+                res.status(200).json({ message: "Created post" });
+            }
 
-            res.status(200).json({ message: "Created post" });
         } else {
             res.status(404).json({ message: "Can't find user." });
         }
@@ -81,9 +85,13 @@ router.put("/:id", auth, midUploadImg, async (req, res, next) => {
                             });
                         }
                     }
-                    await editPost(req.params.id, body.title, body.text, imagePath);
 
-                    res.status(200).json({ message: "Updated post" });
+                    if (!req.params.id || !body.text || !body.title) {
+                        res.status(400).json({ message: "Missing parameters." });
+                    } else {
+                        await editPost(req.params.id, body.title, body.text, imagePath);
+                        res.status(200).json({ message: "Updated post" });
+                    }
                 } else {
                     res.status(404).json({ message: "Can't find user." });
                 }
@@ -105,8 +113,12 @@ router.post("/reply/:id", auth, async (req, res, next) => {
         const decoded = decodeToken(req.accessToken);
         const findUser = await getUserById(decoded.user_id, ["user_id"]);
         if (findUser) {
-            await createPost(req.params.id, findUser.user_id, req.body.title, req.body.text);
-            res.status(200).json({ message: "Created post" });
+            if (!req.params.id || !req.body.text || !req.body.title) {
+                res.status(400).json({ message: "Missing parameters." });
+            } else {
+                await createPost(req.params.id, findUser.user_id, req.body.title, req.body.text);
+                res.status(200).json({ message: "Created post" });
+            }
         } else {
             res.status(404).json({ message: "Can't find user." });
         }

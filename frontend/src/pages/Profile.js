@@ -17,12 +17,10 @@ export default function Profile() {
 
     const [fieldFirstName, setFieldFirstName] = useState("");
     const [fieldLastName, setFieldLastName] = useState("");
-    // const [fieldImagePath, setFieldImagePath] = useState("");
 
     // Validation Errors
     const [errFirstName, setErrFirstName] = useState("");
     const [errLastName, setErrLastName] = useState("");
-    // const [errImagePath, setErrImagePath] = useState("");
 
     useEffect(() => {
         async function loadProfile() {
@@ -105,7 +103,7 @@ export default function Profile() {
             setLoad(true);
             const result = await appFetch('delete', '/users/profile');
             setLoad(false);
-            alert(result.message);
+            enqueueSnackbar(result.message, { variant: 'info' });
             if (result.status === 200) {
                 deleteToken();
                 history.push("/");

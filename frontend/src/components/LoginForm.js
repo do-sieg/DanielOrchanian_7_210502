@@ -1,9 +1,11 @@
+import { useSnackbar } from "notistack";
 import { useState } from "react";
 import { appFetch } from "../utils/fetch";
 import { storeToken } from "../utils/token";
 import { isValidEmail } from "../utils/validation";
 
 export default function LoginForm({ onFetchStart, onFetchEnd }) {
+    const { enqueueSnackbar } = useSnackbar();
     // Fields
     // const [email, setEmail] = useState("");
     // const [password, setPassword] = useState("");
@@ -56,7 +58,7 @@ export default function LoginForm({ onFetchStart, onFetchEnd }) {
 
         onFetchStart();
         const result = await appFetch('post', '/auth/login', body);
-        alert(result.message);
+        enqueueSnackbar(result.message, { variant: result.status === 200 ? 'success' : 'error' });
         if (result.data) {
             storeToken(result.data);
         }

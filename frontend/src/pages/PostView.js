@@ -1,3 +1,4 @@
+import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import { Link } from "react-router-dom";
@@ -12,6 +13,7 @@ export default function PostView() {
 
     const history = useHistory();
     const params = useParams();
+    const { enqueueSnackbar } = useSnackbar();
 
     const [load, setLoad] = useState(true);
     const [pageError, setPageError] = useState();
@@ -50,7 +52,7 @@ export default function PostView() {
                 deleteToken();
                 history.push("/");
             }
-            setPageError(result.status);
+            enqueueSnackbar(result.message, { variant: 'error' });
             setLoad(false);
             return;
         }
@@ -58,7 +60,7 @@ export default function PostView() {
         await loadPost();
 
         setLoad(false);
-        alert(result.message);
+        enqueueSnackbar(result.message, { variant: 'success' });
     }
 
     function handleEditPost(postId) {
@@ -77,7 +79,7 @@ export default function PostView() {
                     deleteToken();
                     history.push("/");
                 }
-                setPageError(result.status);
+                enqueueSnackbar(result.message, { variant: 'error' });
                 setLoad(false);
                 return;
             }

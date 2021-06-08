@@ -1,8 +1,10 @@
+import { useSnackbar } from "notistack";
 import { useState } from "react";
 import { appFetch } from "../utils/fetch";
 import { isValidEmail } from "../utils/validation";
 
 export default function SignupForm({ onFetchStart, onFetchEnd }) {
+    const { enqueueSnackbar } = useSnackbar();
     // Fields
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -79,7 +81,7 @@ export default function SignupForm({ onFetchStart, onFetchEnd }) {
         onFetchStart();
         const result = await appFetch('post', '/auth/signup', body);
         onFetchEnd();
-        alert(result.message);
+        enqueueSnackbar(result.message, { variant: result.status === 200 ? 'success' : 'error' });
     }
 
     return (

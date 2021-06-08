@@ -13,7 +13,6 @@ router.post("/signup",
         lastName: [VLD_NOT_EMPTY_STRING, VLD_NO_SPECIAL_CHARS],
         email: [VLD_NOT_EMPTY_STRING, VLD_IS_EMAIL],
         password: [VLD_NOT_EMPTY_STRING, VLD_NO_SPECIAL_CHARS],
-        // imagePath: [VLD_IS_URL],
     }),
     async (req, res, next) => {
         try {

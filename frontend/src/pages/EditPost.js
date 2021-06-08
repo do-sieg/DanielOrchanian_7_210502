@@ -1,3 +1,4 @@
+import { useSnackbar } from "notistack";
 import { useEffect, useRef, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import AuthLayout from "../components/AuthLayout";
@@ -12,6 +13,7 @@ import { uploadFile } from "../utils/upload";
 export default function EditPost() {
     const history = useHistory();
     const params = useParams();
+    const { enqueueSnackbar } = useSnackbar();
 
     const [load, setLoad] = useState(false);
     const [pageError, setPageError] = useState();
@@ -127,20 +129,18 @@ export default function EditPost() {
             result = await appFetch(method, url, body);
         }
 
-
-
         if (result.status !== 200) {
             if (result.status === 401) {
                 deleteToken();
                 history.push("/");
             }
-            setPageError(result.status);
+            enqueueSnackbar(result.message, { variant: 'error' });
             setLoad(false);
             return;
         }
 
         setLoad(false);
-        alert(result.message);
+        enqueueSnackbar(result.message, { variant: 'success' });
 
         history.push((
             history.location.state && history.location.state.fromPostView) ?

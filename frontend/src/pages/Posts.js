@@ -62,17 +62,13 @@ export default function Posts() {
                     deleteToken();
                     history.push("/");
                 }
-                // setPageError(result.status);
                 enqueueSnackbar(result.message, { variant: 'error' });
-
                 setLoad(false);
                 return;
             }
 
             enqueueSnackbar(result.message, { variant: 'success' });
-
             await loadPosts();
-
             setLoad(false);
         }
     }
