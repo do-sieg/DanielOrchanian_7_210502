@@ -95,21 +95,21 @@ export default function Post({ post, isReply = false, onReply, onEdit, onDelete 
 
             {!isReply &&
                 <>
-                    {onReply &&
-                        <form>
-                            <textarea value={fieldReplyText} onChange={handleChangeReplyText}></textarea>
-                            {errReplyText !== "" && <p className="form-error">{errReplyText}</p>}
-                            <div className="actions">
-                                <button onClick={handleSubmit}>Répondre</button>
-                            </div>
-                        </form>
-                    }
                     {(post.replies && post.replies.length > 0) &&
                         <div className="replies-list">
                             {post.replies.map((reply) => {
                                 return <Post key={reply.id} post={reply} isReply={true} onEdit={onEdit} onDelete={onDelete} />
                             })}
                         </div>
+                    }
+                    {onReply &&
+                        <form>
+                            <textarea value={fieldReplyText} onChange={handleChangeReplyText}></textarea>
+                            {errReplyText !== "" && <p className="form-error">{errReplyText}</p>}
+                            <div className="actions">
+                                <button className="success" onClick={handleSubmit}>Répondre</button>
+                            </div>
+                        </form>
                     }
 
                 </>

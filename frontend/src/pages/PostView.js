@@ -86,6 +86,8 @@ export default function PostView() {
 
             if (parentId === 0) {
                 history.push("/posts");
+            } else {
+                await loadPost();
             }
             setLoad(false);
         }

@@ -4,7 +4,9 @@ export default function AuthLayout({ children }) {
     return (
         <div className="container">
             <Header isAuthenticated={true} />
-            {children}
+            <div className="inner-container">
+                {children}
+            </div>
         </div>
     );
 }

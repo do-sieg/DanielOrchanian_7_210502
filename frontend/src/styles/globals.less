@@ -1,6 +1,9 @@
-@body-bg: linear-gradient(to right, hsl(132, 10%, 95%), hsl(272, 10%, 90%));
+@body-bg: linear-gradient(to right, hsl(132, 30%, 90%), hsl(272, 30%, 90%));
 @header-bg: linear-gradient(155deg, hsl(32, 50%, 50%), hsl(32, 50%, 30%));
+@post-bg: linear-gradient(to right, hsl(132, 30%, 95%), hsl(272, 30%, 95%));
 @link-active: hsl(65, 100%, 80%);
+@inner-width: 900px;
+@header-height: 5rem;
 
 * {
     box-sizing: border-box;
@@ -29,20 +32,35 @@ body {
 }
 
 .container {
-    min-height: 100vh;
+    min-height: calc(100vh - @header-height);
     display: flex;
     flex-direction: column;
+    margin-top: @header-height;
+}
+
+.inner-container {
+    width: 100%;
+    max-width: @inner-width;
+    margin: 0 auto;
 }
 
 header {
-    height: 5rem;
-    padding: 0 1rem;
     display: flex;
-    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: @header-height;
+    z-index: 2;
     background-image: @header-bg;
-    img {
-        width: 250px;
-        align-self: center;
+    .box-shadow(2px, 5px, #0006);
+    .inner-container {
+        display: flex;
+        justify-content: space-between;
+        img {
+            width: 250px;
+            align-self: center;
+        }
     }
 }
 
@@ -92,8 +110,6 @@ nav {
     color: #fff;
     cursor: pointer;
     .box-shadow(2px, 3px, grey);
-    // transition: background-image 2s ease-in-out 0.1s;
-    // transition: unset;
     &:hover, &:active {
         background-image: linear-gradient(175deg, #eee, #bbb);
         .box-shadow(2px, 8px, grey);
@@ -151,6 +167,7 @@ form {
         width: 100%;
         padding: 0.5rem;
         font-family: inherit;
+        font-size: medium;
         + label {
             margin-top: 2rem;
         }
@@ -203,6 +220,7 @@ form {
         display: flex;
         justify-content: flex-end;
         gap: 0.5rem;
+        margin-top: 1rem;
     }
 }
 
@@ -228,10 +246,21 @@ form {
 }
 
 .posts-list {
-    padding: 1rem 2rem;
+    padding: 1rem 0;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    .post-reply-link {
+        display: flex;
+        justify-content: flex-end;
+        margin: 1rem 0 3rem;
+        a {
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            font-size: large;
+            font-weight: 500;
+            &:extend(.btn, .btn-success);
+        }
+    }
 }
 
 
@@ -287,10 +316,10 @@ form {
 
     .post-body {
         padding: 0.5rem 1rem;
-        // border: 1px solid silver;
         border-top: none;
         border-bottom-left-radius: 5px;
         border-bottom-right-radius: 5px;
+        background: @post-bg;
         .box-shadow(2px, 5px, #0006);
 
         p {
@@ -337,7 +366,7 @@ form {
         .post-container {
             .box-shadow(2px, 5px, #0006);
             .post-head {
-                background: none;
+                background: @post-bg;
                 color: unset;
                 box-shadow: unset;
             }

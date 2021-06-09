@@ -84,15 +84,15 @@ export default function Posts() {
                     <>
 
                         <div className="posts-list">
-                            <div className="post-actions">
+                            <div style={{ marginBottom: '1rem' }}>
                                 <button className="btn btn-success" onClick={handleStartPost}><FaPlusSquare /> Créer une publication</button>
                             </div>
                             {postsList.map((post) => {
                                 return (
                                     <React.Fragment key={post.id}>
                                         <Post post={post} onEdit={handleEditPost} onDelete={handleDeletePost} />
-                                        <div className="post-actions">
-                                            <Link to={`/post/${post.id}`}>Répondre</Link>
+                                        <div className="post-reply-link">
+                                            <Link to={`/post/${post.id}`}>Réponses</Link>
                                         </div>
                                     </React.Fragment>
                                 );
