@@ -74,11 +74,11 @@ export default function Post({ post, isReply = false, onReply, onEdit, onDelete 
                 {!isReply && <h2>{post.title}</h2>}
                 <div className="post-info">
                     {!isReply ?
-                        <span>Par {renderUserInfo(post.userFirstName, post.userLastName)},</span>
+                        <span>Par {renderUserInfo(post.userFirstName, post.userLastName)},&nbsp;</span>
                         :
-                        <span>{renderUserInfo(post.userFirstName, post.userLastName)} a répondu</span>
+                        <span>{renderUserInfo(post.userFirstName, post.userLastName)} a répondu&nbsp;</span>
                     }
-                    <time>&nbsp;le {dateToString(post.creationDate, 'D/M/YY')}</time>
+                    <time>le {dateToString(post.creationDate, 'D/M/YY')}</time>
                 </div>
 
             </div>

@@ -17,14 +17,12 @@ export default function Header({ isAuthenticated = false }) {
         <header>
             <div className="inner-container">
                 <img src={"/images/icon-left-font-monochrome-white.svg"} />
-                {isAuthenticated ?
+                {isAuthenticated &&
                     <nav>
                         <Link to="/posts">Posts</Link>
                         <Link to="/profile">Profil</Link>
                         <a href="#" onClick={handleLogout}>Déconnexion</a>
                     </nav>
-                    :
-                    "NOPE"
                 }
             </div>
         </header>

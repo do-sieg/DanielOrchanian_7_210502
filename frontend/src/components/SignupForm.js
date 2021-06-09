@@ -102,7 +102,9 @@ export default function SignupForm({ onFetchStart, onFetchEnd }) {
             <input type="password" value={password} onChange={handleChangePassword} required />
             {errPassword !== "" && <p className="form-error">{errPassword}</p>}
 
-            <button className="success" onClick={handleSubmit}>S'inscrire</button>
+            <div className="actions">
+                <button className="success" onClick={handleSubmit}>S'inscrire</button>
+            </div>
         </form>
     );
 }

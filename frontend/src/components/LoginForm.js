@@ -76,7 +76,9 @@ export default function LoginForm({ onFetchStart, onFetchEnd }) {
             <input type="password" value={password} onChange={handleChangePassword} required />
             {errPassword !== "" && <p className="form-error">{errPassword}</p>}
 
-            <button className="success" onClick={handleSubmit}>Se connecter</button>
+            <div className="actions">
+                <button className="success" onClick={handleSubmit}>Se connecter</button>
+            </div>
         </form>
     );
 }

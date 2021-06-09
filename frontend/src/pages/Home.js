@@ -43,9 +43,9 @@ export default function Home() {
                 <Loader />
                 :
                 <div className="home-container">
-                    <SignupForm onFetchStart={handleStartLoad} onFetchEnd={handleEndLoad} />
-                    <p>OU</p>
                     <LoginForm onFetchStart={handleStartLoad} onFetchEnd={handleEndLoad} />
+                    <p class="home-or">OU</p>
+                    <SignupForm onFetchStart={handleStartLoad} onFetchEnd={handleEndLoad} />
                 </div>
             }
         </GuestLayout>

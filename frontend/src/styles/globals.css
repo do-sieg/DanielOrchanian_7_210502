@@ -12,10 +12,10 @@ body {
   object-fit: cover;
 }
 .container {
-  min-height: calc(100vh - 5rem);
+  min-height: calc(100vh - 7rem);
   display: flex;
   flex-direction: column;
-  margin-top: 5rem;
+  margin-top: 7rem;
 }
 .inner-container {
   width: 100%;
@@ -28,7 +28,7 @@ header {
   top: 0;
   left: 0;
   width: 100%;
-  height: 5rem;
+  height: 7rem;
   z-index: 2;
   background-image: linear-gradient(155deg, hsl(32, 50%, 50%), hsl(32, 50%, 30%));
   box-shadow: #0006 2px 2px 5px;
@@ -189,9 +189,9 @@ form button.danger:hover {
   background-color: hsl(0, 50%, 60%);
 }
 form .form-error {
-  margin-bottom: 2rem;
+  margin: 0.25rem 0 2rem;
   padding: 0.5rem 1rem;
-  border-radius: 5px;
+  border-radius: 3px;
   background-color: hsl(0, 50%, 50%);
   color: #fff;
 }
@@ -208,7 +208,7 @@ form .actions {
 .home-container form {
   flex: 1;
 }
-.home-container p {
+.home-container .home-or {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -334,4 +334,51 @@ form .actions {
 }
 .post-container .replies-list .post-container .post-body {
   box-shadow: unset;
+}
+@media (max-width: 360px) {
+  form {
+    padding: 0.5rem;
+  }
+  .inner-container {
+    padding: 0.5rem;
+  }
+  header .inner-container {
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+  header .inner-container nav {
+    justify-content: space-evenly;
+  }
+  header .inner-container nav a {
+    font-size: large;
+  }
+  .home-container {
+    flex-direction: column;
+  }
+  .home-container .home-or {
+    margin: 10px auto;
+  }
+  .post-head h2 {
+    width: calc(100% - 55px);
+    font-size: medium;
+  }
+  .post-head .post-info {
+    margin-top: 0.5rem;
+    flex-direction: column;
+    font-size: small;
+  }
+  .post-body img,
+  form img {
+    width: 240px !important;
+    height: 180px !important;
+  }
+  .replies-list {
+    padding-left: 0 !important;
+  }
+}
+@media (max-width: 768px) {
+  .inner-container {
+    max-width: 640px;
+  }
 }

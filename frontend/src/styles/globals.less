@@ -3,7 +3,7 @@
 @post-bg: linear-gradient(to right, hsl(132, 30%, 95%), hsl(272, 30%, 95%));
 @link-active: hsl(65, 100%, 80%);
 @inner-width: 900px;
-@header-height: 5rem;
+@header-height: 7rem;
 
 * {
     box-sizing: border-box;
@@ -210,9 +210,9 @@ form {
         }
     }
     .form-error {
-        margin-bottom: 2rem;
+        margin: 0.25rem 0 2rem;
         padding: 0.5rem 1rem;
-        border-radius: 5px;
+        border-radius: 3px;
         background-color: hsl(0, 50%, 50%);
         color: #fff;
     }
@@ -230,7 +230,7 @@ form {
     form {
         flex: 1;
     }
-    p {
+    .home-or {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -375,5 +375,63 @@ form {
             }
         }
 
+    }
+}
+
+
+@media (max-width: 360px) {
+    form {
+        padding: 0.5rem;
+    }
+    .inner-container {
+        padding: 0.5rem;
+    }
+    header {
+        .inner-container {
+            flex-direction: column;
+            justify-content: center;
+            gap: 0.75rem;
+            nav {
+                justify-content: space-evenly;
+                a {
+                    font-size: large;
+                }
+            }
+        }
+    }
+
+    .home-container {
+        flex-direction: column;
+        .home-or {
+            margin: 10px auto;
+        }
+    }
+
+    .post-head {
+        h2 {
+            width: calc(100% - 55px);
+            font-size: medium;
+        }
+        .post-info {
+            margin-top: 0.5rem;
+            flex-direction: column;
+            font-size: small;
+        }
+    }
+
+    .post-body img, form img {
+        width: 240px !important;
+        height: 180px !important;
+    }
+
+    .replies-list {
+        padding-left: 0 !important;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .inner-container {
+        max-width: 640px;
     }
 }
