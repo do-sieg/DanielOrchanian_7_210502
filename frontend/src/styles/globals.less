@@ -20,6 +20,14 @@ body {
     // transition: box-shadow 0.2s ease-in-out 0.1s;
 }
 
+.post-img {
+    display: block;
+    margin-bottom: 20px;
+    width: 300px;
+    height: 225px;
+    object-fit: cover;
+}
+
 .container {
     min-height: 100vh;
     display: flex;
@@ -154,6 +162,9 @@ form {
     textarea {
         height: 64px;
     }
+    img {
+        .post-img();
+    }
     button {
         min-width: 80px;
         padding: 0.5rem 1rem;
@@ -285,6 +296,10 @@ form {
         p {
             white-space: pre-line;
             margin-left: 1rem;
+        }
+        img {
+            margin: 0 auto;
+            .post-img();
         }
     }
 

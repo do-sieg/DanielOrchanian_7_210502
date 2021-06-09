@@ -4,6 +4,13 @@
 body {
   background-image: linear-gradient(to right, hsl(132, 10%, 95%), hsl(272, 10%, 90%));
 }
+.post-img {
+  display: block;
+  margin-bottom: 20px;
+  width: 300px;
+  height: 225px;
+  object-fit: cover;
+}
 .container {
   min-height: 100vh;
   display: flex;
@@ -131,6 +138,13 @@ form input {
 form textarea {
   height: 64px;
 }
+form img {
+  display: block;
+  margin-bottom: 20px;
+  width: 300px;
+  height: 225px;
+  object-fit: cover;
+}
 form button {
   min-width: 80px;
   padding: 0.5rem 1rem;
@@ -247,6 +261,14 @@ form .actions {
 .post-container .post-body p {
   white-space: pre-line;
   margin-left: 1rem;
+}
+.post-container .post-body img {
+  margin: 0 auto;
+  display: block;
+  margin-bottom: 20px;
+  width: 300px;
+  height: 225px;
+  object-fit: cover;
 }
 .post-container .post-actions {
   position: absolute;

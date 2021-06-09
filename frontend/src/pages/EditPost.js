@@ -196,7 +196,7 @@ export default function EditPost() {
                             </>
                         }
                         <div className="actions">
-                            <button className="success" onClick={handleSubmit}>{!isReply ? "Créer" : "Modifier"}</button>
+                            <button className="success" onClick={handleSubmit}>{!params.id ? "Créer" : "Modifier"}</button>
                             <button className="danger" onClick={handleCancel}>Annuler</button>
                         </div>
                     </form>
