@@ -99,7 +99,9 @@ export default function Post({ post, isReply = false, onReply, onEdit, onDelete 
                         <form>
                             <textarea value={fieldReplyText} onChange={handleChangeReplyText}></textarea>
                             {errReplyText !== "" && <p className="form-error">{errReplyText}</p>}
-                            <button onClick={handleSubmit}>Répondre</button>
+                            <div className="actions">
+                                <button onClick={handleSubmit}>Répondre</button>
+                            </div>
                         </form>
                     }
                     {(post.replies && post.replies.length > 0) &&

@@ -15,7 +15,7 @@ export default function Header({ isAuthenticated = false }) {
 
     return (
         <header>
-            <p>LOGO</p>
+            <img src={"/images/icon-left-font-monochrome-white.svg"} />
             {isAuthenticated ?
                 <nav>
                     <Link to="/posts">Posts</Link>
