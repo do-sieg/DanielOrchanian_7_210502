@@ -1,4 +1,5 @@
 import { sqlQuery } from "../utils/mysql";
+import { deletePostsByUserId } from "./posts";
 
 const TABLE_NAME = "users";
 const SELECT_FIELDS = [
@@ -79,10 +80,11 @@ export async function updateUser(id, firstName, lastName) {
 
 export async function deleteUser(id) {
     try {
-        await sqlQuery(`
-            DELETE FROM ${TABLE_NAME}
-            WHERE user_id = ${id}
-        `);
+        // await sqlQuery(`
+        //     DELETE FROM ${TABLE_NAME}
+        //     WHERE user_id = ${id}
+        // `);
+        await deletePostsByUserId(id);
         return true;
     } catch (err) {
         throw err;

@@ -144,3 +144,26 @@ export async function deletePost(postId) {
         throw err;
     }
 }
+
+export async function deletePostsByUserId(userId) {
+    try {
+        // Find user posts
+        const rows = await sqlQuery(`
+            SELECT post_id FROM ${TABLE_NAME} WHERE post_user_id = ${userId}
+        `);
+        const userPostsIds = rows.map(post => post.post_id);
+        // Delete user posts (and all replies)
+        for (const postId of userPostsIds) {
+            await deletePost(postId);
+        }
+        // Delete user account
+        await sqlQuery(`
+            DELETE FROM ${TABLE_NAME}
+            WHERE post_user_id = ${userId}
+        `);
+        return true;
+    } catch (err) {
+        throw err;
+    }
+
+}
