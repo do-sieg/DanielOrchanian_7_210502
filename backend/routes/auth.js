@@ -3,7 +3,7 @@ import { createToken } from '../utils/token';
 import { createUser, getUserByEmail } from '../database/users';
 import { encryptPassword, verifyPassword } from '../utils/bcrypt';
 import { handleServerError } from '../utils/errorHandler';
-import { validateBodyFields, VLD_IS_EMAIL, VLD_NOT_EMPTY_STRING, VLD_NO_SPECIAL_CHARS } from '../utils/validation';
+import { isValidPassword, validateBodyFields, VLD_IS_EMAIL, VLD_NOT_EMPTY_STRING, VLD_NO_SPECIAL_CHARS } from '../utils/validation';
 
 const router = express.Router();
 
@@ -12,8 +12,15 @@ router.post("/signup",
         firstName: [VLD_NOT_EMPTY_STRING, VLD_NO_SPECIAL_CHARS],
         lastName: [VLD_NOT_EMPTY_STRING, VLD_NO_SPECIAL_CHARS],
         email: [VLD_NOT_EMPTY_STRING, VLD_IS_EMAIL],
-        password: [VLD_NOT_EMPTY_STRING, VLD_NO_SPECIAL_CHARS],
+        password: [VLD_NOT_EMPTY_STRING],
     }),
+    (req, res, next) => {
+        if (isValidPassword(req.body.password)) {
+            next();
+        } else {
+            res.status(400).json({ message: "Mot de passe non valide (6 caractères minimum, une majuscule, une minuscule, un chiffre et un caractère spécial)." });
+        }
+    },
     async (req, res, next) => {
         try {
             const checkUserExist = await getUserByEmail(req.body.email);
@@ -34,8 +41,15 @@ router.post("/signup",
 router.post("/login",
     validateBodyFields({
         email: [VLD_NOT_EMPTY_STRING, VLD_IS_EMAIL],
-        password: [VLD_NOT_EMPTY_STRING, VLD_NO_SPECIAL_CHARS],
+        password: [VLD_NOT_EMPTY_STRING],
     }),
+    (req, res, next) => {
+        if (isValidPassword(req.body.password)) {
+            next();
+        } else {
+            res.status(400).json({ message: "Mot de passe non valide (6 caractères minimum, une majuscule, une minuscule, un chiffre et un caractère spécial)." });
+        }
+    },
     async (req, res, next) => {
         try {
             const findUser = await getUserByEmail(req.body.email, [

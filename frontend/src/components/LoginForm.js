@@ -2,7 +2,7 @@ import { useSnackbar } from "notistack";
 import { useState } from "react";
 import { appFetch } from "../utils/fetch";
 import { storeToken } from "../utils/token";
-import { isValidEmail } from "../utils/validation";
+import { isValidEmail, isValidPassword } from "../utils/validation";
 
 export default function LoginForm({ onFetchStart, onFetchEnd }) {
     const { enqueueSnackbar } = useSnackbar();
@@ -41,6 +41,10 @@ export default function LoginForm({ onFetchStart, onFetchEnd }) {
         }
         if (password === "") {
             setErrPassword("Veuillez renseigner ce champ");
+            test = false;
+        }
+        if (!isValidPassword(password)) {
+            setErrPassword("Mot de passe non valide (6 caractères minimum, une majuscule, une minuscule, un chiffre et un caractère spécial).");
             test = false;
         }
 
