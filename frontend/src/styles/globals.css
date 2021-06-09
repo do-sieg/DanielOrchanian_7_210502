@@ -245,6 +245,7 @@ form .actions {
   box-shadow: #0006 2px 2px 5px;
 }
 .post-container .post-body p {
+  white-space: pre-line;
   margin-left: 1rem;
 }
 .post-container .post-actions {

@@ -1,4 +1,4 @@
-import { sqlQuery } from "../utils/mysql";
+import { sqlEscape, sqlQuery } from "../utils/mysql";
 
 const TABLE_NAME = "posts";
 const SELECT_FIELDS = [
@@ -106,7 +106,7 @@ export async function createPost(parentId, userId, title, text, imagePath = "") 
     try {
         const result = await sqlQuery(`
             INSERT INTO ${TABLE_NAME} (post_parent_id, post_user_id, post_title, post_text, post_image_path)
-            VALUES (${parentId}, '${userId}', '${title}', '${text}', '${imagePath}')
+            VALUES (${parentId}, '${userId}', ${sqlEscape(title)}, ${sqlEscape(text)}, '${imagePath}')
         `);
         return result.insertId;
     } catch (err) {
@@ -119,8 +119,8 @@ export async function editPost(postId, title, text, imagePath = "") {
     try {
         await sqlQuery(`
             UPDATE ${TABLE_NAME} SET
-            post_title = '${title}',
-            post_text = '${text}',
+            post_title = ${sqlEscape(title)},
+            post_text = ${sqlEscape(text)},
             post_image_path = '${imagePath}'
             WHERE post_id = ${postId}
         `);
@@ -129,7 +129,6 @@ export async function editPost(postId, title, text, imagePath = "") {
         throw err;
     }
 }
-
 
 export async function deletePost(postId) {
     try {

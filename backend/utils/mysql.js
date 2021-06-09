@@ -27,3 +27,7 @@ export function sqlQuery(queryString) {
         });
     });
 }
+
+export function sqlEscape(str) {
+    return mysql.escape(str);
+}
