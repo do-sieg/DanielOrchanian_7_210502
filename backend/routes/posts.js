@@ -31,6 +31,23 @@ router.get("/view/:id", auth, async (req, res, next) => {
     }
 });
 
+router.get("/edit/:id", auth, async (req, res, next) => {
+    try {
+        const post = await getPostWithReplies(req.params.id);
+        if (post === null) {
+            res.status(404).json({ message: "Can't find post" });
+        } else {
+            if (isPostOwner(req, res, post.userId)) {
+                res.status(200).json({ data: post });
+            } else {
+                res.status(403).json({ message: "Not authorized for this action." });
+            }
+        }
+    } catch (err) {
+        handleServerError(req, res, err);
+    }
+});
+
 router.post("/", auth, midUploadImg, async (req, res, next) => {
     try {
         const decoded = decodeToken(req.accessToken);

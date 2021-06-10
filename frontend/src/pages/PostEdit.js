@@ -8,14 +8,12 @@ import { appFetch } from "../utils/fetch";
 import { deleteToken } from "../utils/token";
 import { uploadFile } from "../utils/upload";
 
-
-
-export default function EditPost() {
+export default function PostEdit() {
     const history = useHistory();
     const params = useParams();
     const { enqueueSnackbar } = useSnackbar();
 
-    const [load, setLoad] = useState(false);
+    const [load, setLoad] = useState(true);
     const [pageError, setPageError] = useState();
 
     const [isReply, setIsReply] = useState(false);
@@ -39,7 +37,7 @@ export default function EditPost() {
 
     async function loadPost(postId) {
         setLoad(true);
-        const result = await appFetch('get', `/posts/view/${postId}`);
+        const result = await appFetch('get', `/posts/edit/${postId}`);
         if (result.status !== 200) {
             if (result.status === 401) {
                 deleteToken();
