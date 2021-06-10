@@ -55,11 +55,12 @@ router.post("/login",
             const findUser = await getUserByEmail(req.body.email, [
                 "user_id AS id",
                 "user_password AS password",
+                "user_role AS role",
             ]);
             if (findUser) {
                 const match = await verifyPassword(req.body.password, findUser.password);
                 if (match === true) {
-                    const token = await createToken({ user_id: findUser.id });
+                    const token = await createToken({ id: findUser.id, role: findUser.role });
                     res.status(200).json({ data: token, message: "Utilisateur connecté" });
                 } else {
                     res.status(400).json({ data: null, message: "Identifiants invalides" });

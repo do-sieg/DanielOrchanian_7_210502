@@ -4,7 +4,7 @@ const TABLE_NAME = "posts";
 const SELECT_FIELDS = [
     "post_id AS id",
     "post_parent_id AS parentId",
-    // "post_user_id AS userId",
+    "post_user_id AS userId",
     "post_title AS title",
     "post_text AS text",
     "post_image_path AS imagePath",

@@ -1,6 +1,9 @@
 import { sqlQuery } from "../utils/mysql";
 import { deletePostsByUserId } from "./posts";
 
+export const ROLE_USER = 0;
+export const ROLE_ADMIN = 1;
+
 const TABLE_NAME = "users";
 const SELECT_FIELDS = [
     "user_id AS id",
@@ -9,6 +12,7 @@ const SELECT_FIELDS = [
     "user_email AS email",
     "user_creation_date AS creationDate",
     "user_active AS active",
+    "user_role AS role",
 ];
 
 
@@ -22,7 +26,8 @@ export async function initUsersTable() {
                 user_email VARCHAR(255) NOT NULL,
                 user_password VARCHAR(255) NOT NULL,
                 user_creation_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-                user_active BOOL NOT NULL DEFAULT true
+                user_active BOOL NOT NULL DEFAULT true,
+                user_role INT(11) NOT NULL DEFAULT ${ROLE_USER}
             )
         `);
         return result.warningCount === 0;

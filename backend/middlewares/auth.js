@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { ROLE_ADMIN } from "../database/users";
 
 // Check if a user is logged in and has a valid token
 export function auth(req, res, next) {
@@ -26,7 +27,7 @@ export function auth(req, res, next) {
 };
 
 // Check if an ID belongs to the user by comparing it with his token
-export function isOwner(req, res, userIdToCheck) {
+export function isOwner(req, res, userIdToCheck, userRoleToCheck) {
     try {
         if (req.headers.authorization && req.headers.authorization.startsWith("Bearer ")) {
             // Get token from request headers
@@ -35,7 +36,7 @@ export function isOwner(req, res, userIdToCheck) {
             // Decode token
             const decoded = jwt.decode(token, process.env.JWT_SECRET_KEY);
             // Compare user ID
-            return decoded.user_id === userIdToCheck;
+            return decoded.id === userIdToCheck || userRoleToCheck === ROLE_ADMIN;
         } else {
             throw new Error("Missing token");
         }

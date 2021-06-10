@@ -34,7 +34,7 @@ router.get("/view/:id", auth, async (req, res, next) => {
 router.post("/", auth, midUploadImg, async (req, res, next) => {
     try {
         const decoded = decodeToken(req.accessToken);
-        const findUser = await getUserById(decoded.user_id, ["user_id"]);
+        const findUser = await getUserById(decoded.id, ["user_id"]);
         if (findUser) {
             let body = req.body;
             let imagePath = "";
@@ -64,9 +64,9 @@ router.put("/:id", auth, midUploadImg, async (req, res, next) => {
 
         const findPost = await getPostById(req.params.id, ["post_id", "post_user_id", "post_image_path"]);
         if (findPost) {
-            if (isOwner(req, res, findPost.post_user_id)) {
-                const decoded = decodeToken(req.accessToken);
-                const findUser = await getUserById(decoded.user_id, ["user_id"]);
+            const decoded = decodeToken(req.accessToken);
+            const findUser = await getUserById(decoded.id, ["user_id", "user_role"]);
+            if (isOwner(req, res, findPost.post_user_id, findUser.user_role)) {
                 if (findUser) {
                     let body = req.body;
                     let imagePath = "";
@@ -111,7 +111,7 @@ router.put("/:id", auth, midUploadImg, async (req, res, next) => {
 router.post("/reply/:id", auth, async (req, res, next) => {
     try {
         const decoded = decodeToken(req.accessToken);
-        const findUser = await getUserById(decoded.user_id, ["user_id"]);
+        const findUser = await getUserById(decoded.id, ["user_id"]);
         if (findUser) {
             if (!req.params.id || !req.body.text || !req.body.title) {
                 res.status(400).json({ message: "Missing parameters." });
@@ -131,7 +131,9 @@ router.delete("/:id", auth, async (req, res, next) => {
     try {
         const findPost = await getPostById(req.params.id, ["post_id", "post_user_id", "post_image_path"]);
         if (findPost) {
-            if (isOwner(req, res, findPost.post_user_id)) {
+            const decoded = decodeToken(req.accessToken);
+            const findUser = await getUserById(decoded.id, ["user_id", "user_role"]);
+            if (isOwner(req, res, findPost.post_user_id, findUser.user_role)) {
 
                 if (findPost.post_image_path) {
                     fs.unlink(`public/images/${findPost.post_image_path}`, (err) => {
