@@ -27,7 +27,7 @@ export function auth(req, res, next) {
 };
 
 // Check if an ID belongs to the user by comparing it with his token
-export function isOwner(req, res, userIdToCheck, userRoleToCheck) {
+export function isPostOwner(req, res, userIdToCheck) {
     try {
         if (req.headers.authorization && req.headers.authorization.startsWith("Bearer ")) {
             // Get token from request headers
@@ -36,7 +36,7 @@ export function isOwner(req, res, userIdToCheck, userRoleToCheck) {
             // Decode token
             const decoded = jwt.decode(token, process.env.JWT_SECRET_KEY);
             // Compare user ID
-            return decoded.id === userIdToCheck || userRoleToCheck === ROLE_ADMIN;
+            return decoded.id === userIdToCheck;
         } else {
             throw new Error("Missing token");
         }

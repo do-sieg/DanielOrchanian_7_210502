@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FaEdit, FaTimes } from "react-icons/fa";
 import Linkify from "react-linkify";
 import { dateToString } from "../utils/date";
-import { isPostOwner } from "../utils/frontAuth";
+import { canDeletePost, canEditPost } from "../utils/frontAuth";
 
 export default function Post({ post, isReply = false, onReply, onEdit, onDelete }) {
 
@@ -88,12 +88,16 @@ export default function Post({ post, isReply = false, onReply, onEdit, onDelete 
                     <img src={`http://localhost:5000/public/images/${post.imagePath}`} alt={post.imagePath} />
                 }
             </div>
-            {isPostOwner(post.userId) &&
-                <div className="post-actions">
+
+            <div className="post-actions">
+                {canEditPost(post.userId) &&
                     <button onClick={(e) => handleEditPost(e, post.id)}><FaEdit /></button>
+                }
+                {canDeletePost(post.userId) &&
                     <button onClick={(e) => handleDeletePost(e, post.id, post.parentId)}><FaTimes /></button>
-                </div>
-            }
+                }
+            </div>
+
 
             {!isReply &&
                 <>

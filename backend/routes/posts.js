@@ -1,9 +1,9 @@
 import fs from 'fs';
 import express from 'express';
-import { auth, isOwner } from '../middlewares/auth';
+import { auth, isPostOwner } from '../middlewares/auth';
 import { handleServerError } from '../utils/errorHandler';
 import { decodeToken } from '../utils/token';
-import { getUserById } from '../database/users';
+import { getUserById, ROLE_ADMIN } from '../database/users';
 import { createPost, deletePost, editPost, getAllParentPosts, getPostById, getPostWithReplies } from '../database/posts';
 import { midUploadImg } from '../middlewares/midMulter';
 
@@ -61,12 +61,11 @@ router.post("/", auth, midUploadImg, async (req, res, next) => {
 
 router.put("/:id", auth, midUploadImg, async (req, res, next) => {
     try {
-
         const findPost = await getPostById(req.params.id, ["post_id", "post_user_id", "post_image_path"]);
         if (findPost) {
             const decoded = decodeToken(req.accessToken);
-            const findUser = await getUserById(decoded.id, ["user_id", "user_role"]);
-            if (isOwner(req, res, findPost.post_user_id, findUser.user_role)) {
+            const findUser = await getUserById(decoded.id, ["user_id"]);
+            if (isPostOwner(req, res, findPost.post_user_id)) {
                 if (findUser) {
                     let body = req.body;
                     let imagePath = "";
@@ -134,7 +133,7 @@ router.delete("/:id", auth, async (req, res, next) => {
         if (findPost) {
             const decoded = decodeToken(req.accessToken);
             const findUser = await getUserById(decoded.id, ["user_id", "user_role"]);
-            if (isOwner(req, res, findPost.post_user_id, findUser.user_role)) {
+            if (isPostOwner(req, res, findPost.post_user_id) || findUser.user_role === ROLE_ADMIN) {
 
                 if (findPost.post_image_path) {
                     fs.unlink(`public/images/${findPost.post_image_path}`, (err) => {
