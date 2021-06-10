@@ -80,10 +80,10 @@ export async function updateUser(id, firstName, lastName) {
 
 export async function deleteUser(id) {
     try {
-        // await sqlQuery(`
-        //     DELETE FROM ${TABLE_NAME}
-        //     WHERE user_id = ${id}
-        // `);
+        await sqlQuery(`
+            DELETE FROM ${TABLE_NAME}
+            WHERE user_id = ${id}
+        `);
         await deletePostsByUserId(id);
         return true;
     } catch (err) {
