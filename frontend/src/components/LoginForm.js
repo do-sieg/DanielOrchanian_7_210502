@@ -4,8 +4,10 @@ import { appFetch } from "../utils/fetch";
 import { storeToken } from "../utils/token";
 import { isValidEmail, isValidPassword } from "../utils/validation";
 
+// Formulaire de connection
 export default function LoginForm({ onFetchStart, onFetchEnd }) {
     const { enqueueSnackbar } = useSnackbar();
+
     // Fields
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -65,7 +67,6 @@ export default function LoginForm({ onFetchStart, onFetchEnd }) {
             storeToken(result.data);
         }
         onFetchEnd();
-
     }
 
     return (

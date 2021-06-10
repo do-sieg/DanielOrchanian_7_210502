@@ -7,7 +7,7 @@ import { appFetch } from "../utils/fetch";
 import { deleteToken } from "../utils/token";
 import { useSnackbar } from "notistack";
 
-
+// Page de profil
 export default function Profile() {
     const history = useHistory();
     const { enqueueSnackbar } = useSnackbar();

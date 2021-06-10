@@ -1,3 +1,4 @@
+/* VARIABLES */
 @body-bg: linear-gradient(to right, hsl(132, 30%, 90%), hsl(272, 30%, 90%));
 @header-bg: linear-gradient(155deg, hsl(224, 50%, 40%), hsl(224, 50%, 20%));
 @post-bg: linear-gradient(to right, hsl(224, 20%, 85%), hsl(224, 20%, 75%));
@@ -5,6 +6,16 @@
 @inner-width: 900px;
 @header-height: 7rem;
 
+/* MIXINS */
+.text-shadow(@range: 2px, @blur: 3px, @color: black) {
+    text-shadow: @color @range @range @blur;
+}
+
+.box-shadow(@range: 2px, @blur: 3px, @color: black) {
+    box-shadow: @color @range @range @blur;
+}
+
+/* CORE */
 * {
     box-sizing: border-box;
 }
@@ -13,15 +24,9 @@ body {
     background-image: @body-bg;
 }
 
-.text-shadow(@range: 2px, @blur: 3px, @color: black) {
-    text-shadow: @color @range @range @blur;
-    // transition: text-shadow 0.2s ease-in-out 0.1s;
-}
 
-.box-shadow(@range: 2px, @blur: 3px, @color: black) {
-    box-shadow: @color @range @range @blur;
-    // transition: box-shadow 0.2s ease-in-out 0.1s;
-}
+
+
 
 .post-img {
     display: block;
@@ -161,7 +166,6 @@ nav {
 
 form {
     padding: 1rem 2rem;
-    // background: violet;
     label {
         display: block;
         margin: 0.5rem 0;
@@ -194,7 +198,6 @@ form {
         font-size: medium;
         font-weight: 500;
         cursor: pointer;
-        // border: 1px solid grey;
         border: none;
         border-radius: 5px;
         transition: background-color 0.2s;
@@ -281,7 +284,6 @@ form {
     border-radius: 5px;
 
     .post-head {
-        
         padding: 0.5rem 1rem;
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
@@ -300,8 +302,6 @@ form {
             align-items: baseline;
         }
         .user-info {
-            // background-color: green;
-    
             display: inline-flex;
             align-items: baseline;
             gap: 0.35rem;
@@ -324,7 +324,6 @@ form {
             }
         }
     }
-
 
     .post-body {
         padding: 0.5rem 1rem;
@@ -351,7 +350,6 @@ form {
         display: flex;
         gap: 5px;
         button {
-            // background-color: #fff;
             width: 1.5rem;
             height: 1.5rem;
             padding: 0;
@@ -364,12 +362,8 @@ form {
             .box-shadow(2px, 5px, #0006);
         }
     }
-
-
     
     .replies-list {
-        // background-color: pink;
-
         padding: 1rem 0 1rem 1rem;
         display: flex;
         flex-direction: column;
@@ -447,3 +441,4 @@ form {
         max-width: 640px;
     }
 }
+

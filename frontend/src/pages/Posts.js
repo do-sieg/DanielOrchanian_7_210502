@@ -10,7 +10,7 @@ import { deleteToken } from "../utils/token";
 import { FaPlusSquare } from "react-icons/fa";
 import { useSnackbar } from "notistack";
 
-
+// Liste de posts de base
 export default function Posts() {
     const history = useHistory();
 
@@ -38,11 +38,9 @@ export default function Posts() {
             setLoad(false);
             return;
         }
-
         setPostsList(result.data);
         setLoad(false);
     }
-
 
     function handleStartPost(e) {
         e.preventDefault();
@@ -66,7 +64,6 @@ export default function Posts() {
                 setLoad(false);
                 return;
             }
-
             enqueueSnackbar(result.message, { variant: 'success' });
             await loadPosts();
             setLoad(false);
@@ -82,7 +79,6 @@ export default function Posts() {
                     <ErrorBlock errCode={pageError} />
                     :
                     <>
-
                         <div className="posts-list">
                             <div style={{ marginBottom: '1rem' }}>
                                 <button className="btn btn-success" onClick={handleStartPost}><FaPlusSquare /> Créer une publication</button>

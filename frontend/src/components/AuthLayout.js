@@ -1,5 +1,6 @@
 import Header from "./Header";
 
+// Layout du site (authentifié)
 export default function AuthLayout({ children }) {
     return (
         <div className="container">

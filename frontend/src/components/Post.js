@@ -5,7 +5,7 @@ import { dateToString } from "../utils/date";
 import { canDeletePost, canEditPost } from "../utils/frontAuth";
 
 export default function Post({ post, isReply = false, onReply, onEdit, onDelete }) {
-
+    // Fields
     const [fieldReplyText, setFieldReplyText] = useState("");
     // Validation Errors
     const [errReplyText, setErrReplyText] = useState("");
@@ -24,7 +24,6 @@ export default function Post({ post, isReply = false, onReply, onEdit, onDelete 
     function getAvatarColorStyle(str) {
         const base = str.toLowerCase().charCodeAt(0) - 97;
         const hue = base * 10;
-        // const background = `linear-gradient(175, hsl(${hue}, 50%, 85%), hsl(${hue}, 50%, 75%))`;
         const background = `hsl(${hue}, 30%, 80%)`;
         const color = `hsl(${hue}, 50%, 30%)`;
         return { background, color };
@@ -117,7 +116,6 @@ export default function Post({ post, isReply = false, onReply, onEdit, onDelete 
                             </div>
                         </form>
                     }
-
                 </>
             }
         </div >

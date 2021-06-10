@@ -1,3 +1,4 @@
+// Bloc d'erreur
 export default function ErrorBlock({ errCode }) {
 
     function getErrMessage() {

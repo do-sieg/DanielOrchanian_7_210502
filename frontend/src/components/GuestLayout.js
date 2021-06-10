@@ -1,5 +1,6 @@
 import Header from "./Header";
 
+// Layout du site (invité)
 export default function GuestLayout({ children }) {
     return (
         <div className="container">

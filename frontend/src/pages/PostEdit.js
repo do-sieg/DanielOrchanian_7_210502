@@ -8,6 +8,7 @@ import { appFetch } from "../utils/fetch";
 import { deleteToken } from "../utils/token";
 import { uploadFile } from "../utils/upload";
 
+// Création/modification de post
 export default function PostEdit() {
     const history = useHistory();
     const params = useParams();
@@ -29,6 +30,7 @@ export default function PostEdit() {
     const inputFile = useRef(null);
 
     useEffect(() => {
+        // Si l'url a une id, on charge les données du post
         if (params.id) {
             loadPost(params.id);
         }
@@ -37,6 +39,7 @@ export default function PostEdit() {
 
     async function loadPost(postId) {
         setLoad(true);
+        // Charger les données du post
         const result = await appFetch('get', `/posts/edit/${postId}`);
         if (result.status !== 200) {
             if (result.status === 401) {
@@ -47,11 +50,11 @@ export default function PostEdit() {
             setLoad(false);
             return;
         }
-
+        // Traiter le message comme un commentaire si nécessaire (champs cachés)
         if (result.data.parentId !== 0) {
             setIsReply(true);
         }
-
+        // Remplir les champs
         setFieldTitle(result.data.title);
         setFieldText(result.data.text);
         setImageFilePath(result.data.imagePath);
@@ -122,6 +125,7 @@ export default function PostEdit() {
             method = 'put';
             url = `/posts/${params.id}`;
         }
+        // Passer par une requête différente si une image est uploadée
         if (newImageFile) {
             result = await uploadFile(method, url, newImageFile, body);
         } else {

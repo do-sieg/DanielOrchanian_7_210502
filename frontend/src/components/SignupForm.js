@@ -38,7 +38,6 @@ export default function SignupForm({ onFetchStart, onFetchEnd }) {
     }
 
     function canSubmit() {
-
         setErrFirstName("");
         setErrLastName("");
         setErrEmail("");

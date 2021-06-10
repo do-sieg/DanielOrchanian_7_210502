@@ -6,7 +6,7 @@ import LoginForm from "../components/LoginForm";
 import SignupForm from "../components/SignupForm";
 import Loader from "../components/Loader";
 
-
+// Page d'accueil
 export default function Home() {
     const history = useHistory();
 

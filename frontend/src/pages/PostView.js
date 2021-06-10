@@ -8,8 +8,8 @@ import Post from "../components/Post";
 import { appFetch } from "../utils/fetch";
 import { deleteToken } from "../utils/token";
 
+// Post avec commentaires
 export default function PostView() {
-
     const history = useHistory();
     const params = useParams();
     const { enqueueSnackbar } = useSnackbar();
@@ -25,7 +25,6 @@ export default function PostView() {
     }, []);
 
     async function loadPost() {
-
         setLoad(true);
         const result = await appFetch('get', `/posts/view/${params.id}`);
         if (result.status !== 200) {
@@ -37,7 +36,6 @@ export default function PostView() {
             setLoad(false);
             return;
         }
-
         setPost(result.data);
         setLoad(false);
     }
@@ -54,9 +52,8 @@ export default function PostView() {
             setLoad(false);
             return;
         }
-
+        // Reload post
         await loadPost();
-
         setLoad(false);
         enqueueSnackbar(result.message, { variant: 'success' });
     }
@@ -81,10 +78,11 @@ export default function PostView() {
                 setLoad(false);
                 return;
             }
-
             if (parentId === 0) {
+                // Navigate to posts list when a base post is deleted
                 history.push("/posts");
             } else {
+                // Reload post when deleting a reply
                 await loadPost();
             }
             setLoad(false);
