@@ -79,6 +79,7 @@ router.put("/:id", auth, midUploadImg, async (req, res, next) => {
                         body = JSON.parse(req.body.data);
                         imagePath = req.file.filename;
                     } else {
+                        imagePath = body.imagePath;
                         if (findPost.post_image_path && !body.imagePath) {
                             fs.unlink(`public/images/${findPost.post_image_path}`, (err) => {
                                 if (err) console.error(err);

@@ -20,7 +20,6 @@ router.get("/profile", auth, async (req, res, next) => {
             throw new Error("Utilisateur introuvable");
         }
     } catch (err) {
-        console.log(err);
         handleServerError(req, res, err);
     }
 });

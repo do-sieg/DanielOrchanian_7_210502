@@ -100,7 +100,7 @@ export default function EditPost() {
         setNewImageFile(null);
         if (imageFilePath) {
             if (window.confirm("Voulez-vous vraiment supprimer l'image du post ?")) {
-                setImageFilePath(null);
+                setImageFilePath("");
             }
         }
         inputFile.current.value = "";
@@ -113,7 +113,7 @@ export default function EditPost() {
             return;
         }
 
-        let body = { title: fieldTitle, text: fieldText };
+        let body = { title: fieldTitle, text: fieldText, imagePath: imageFilePath };
 
         setLoad(true);
 
@@ -152,7 +152,6 @@ export default function EditPost() {
 
     function handleCancel(e) {
         e.preventDefault();
-        // history.push("/posts");
         history.push((
             history.location.state && history.location.state.fromPostView) ?
             `/post/${history.location.state.fromPostView}`
