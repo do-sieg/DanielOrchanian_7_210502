@@ -1,3 +1,4 @@
+// General server error handler
 export function handleServerError(req, res, err) {
     console.error("Error handler:", err.message);
     if ([

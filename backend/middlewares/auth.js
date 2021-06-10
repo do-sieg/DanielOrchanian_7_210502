@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import { ROLE_ADMIN } from "../database/users";
 
 // Check if a user is logged in and has a valid token
 export function auth(req, res, next) {
@@ -19,7 +18,7 @@ export function auth(req, res, next) {
         if (authTest) {
             next();
         } else {
-            res.status(401).json({ message: "Not connected" });
+            res.status(401).json({ message: "Pas connecté." });
         }
     } catch (err) {
         throw err;

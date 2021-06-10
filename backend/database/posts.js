@@ -1,6 +1,8 @@
 import { sqlEscape, sqlQuery } from "../utils/mysql";
 
+// Table name
 const TABLE_NAME = "posts";
+// Table field aliases
 const SELECT_FIELDS = [
     "post_id AS id",
     "post_parent_id AS parentId",
@@ -11,7 +13,7 @@ const SELECT_FIELDS = [
     "post_creation_date AS creationDate",
 ];
 
-
+// Initialize posts table
 export async function initPostsTable() {
     try {
         const result = await sqlQuery(`
@@ -31,7 +33,7 @@ export async function initPostsTable() {
     }
 }
 
-
+// Get single post
 export async function getPostById(postId, fields = SELECT_FIELDS) {
     try {
         const joinTableName = 'users';
@@ -51,7 +53,7 @@ export async function getPostById(postId, fields = SELECT_FIELDS) {
     }
 }
 
-
+// Get posts belonging to a parent (0 = posts with no parent)
 async function getPostsByParentId(parentId, fields, order = "asc") {
     try {
         const joinTableName = 'users';
@@ -72,7 +74,7 @@ async function getPostsByParentId(parentId, fields, order = "asc") {
     }
 }
 
-
+// Get all posts who have no parent (root posts)
 export async function getAllParentPosts(fields = SELECT_FIELDS) {
     try {
         const rows = await getPostsByParentId(0, fields, "desc");
@@ -82,16 +84,17 @@ export async function getAllParentPosts(fields = SELECT_FIELDS) {
     }
 }
 
-
+// Get replies to a post
 export async function getReplies(parentId, fields = SELECT_FIELDS) {
     return await getPostsByParentId(parentId, fields, "asc");
 }
 
-
+// Get a post with its replies
 export async function getPostWithReplies(postId, fields = SELECT_FIELDS) {
     try {
         const post = await getPostById(postId, fields);
         if (post !== null) {
+            // Load replies and add them to the post
             const replies = await getReplies(postId, fields);
             post.replies = replies;
         }
@@ -101,7 +104,7 @@ export async function getPostWithReplies(postId, fields = SELECT_FIELDS) {
     }
 }
 
-
+// Create post
 export async function createPost(parentId, userId, title, text, imagePath = "") {
     try {
         const result = await sqlQuery(`
@@ -114,7 +117,7 @@ export async function createPost(parentId, userId, title, text, imagePath = "") 
     }
 }
 
-
+// Edit post
 export async function editPost(postId, title, text, imagePath = "") {
     try {
         await sqlQuery(`
@@ -130,6 +133,7 @@ export async function editPost(postId, title, text, imagePath = "") {
     }
 }
 
+// Delete single post
 export async function deletePost(postId) {
     try {
         if (postId <= 0) {
@@ -145,6 +149,7 @@ export async function deletePost(postId) {
     }
 }
 
+// Delete posts from a user
 export async function deletePostsByUserId(userId) {
     try {
         // Find user posts
@@ -165,5 +170,4 @@ export async function deletePostsByUserId(userId) {
     } catch (err) {
         throw err;
     }
-
 }

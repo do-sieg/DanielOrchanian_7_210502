@@ -1,10 +1,13 @@
 import { sqlQuery } from "../utils/mysql";
 import { deletePostsByUserId } from "./posts";
 
+// Constants
 export const ROLE_USER = 0;
 export const ROLE_ADMIN = 1;
 
+// Table name
 const TABLE_NAME = "users";
+// Table field aliases
 const SELECT_FIELDS = [
     "user_id AS id",
     "user_first_name AS firstName",
@@ -15,7 +18,7 @@ const SELECT_FIELDS = [
     "user_role AS role",
 ];
 
-
+// Initialize users table
 export async function initUsersTable() {
     try {
         const result = await sqlQuery(`
@@ -36,7 +39,7 @@ export async function initUsersTable() {
     }
 }
 
-
+// Get single user (email)
 export async function getUserByEmail(email, fields = SELECT_FIELDS) {
     try {
         const rows = await sqlQuery(`SELECT ${fields} FROM ${TABLE_NAME} WHERE user_email='${email}' AND user_active = ${1}`);
@@ -46,7 +49,7 @@ export async function getUserByEmail(email, fields = SELECT_FIELDS) {
     }
 }
 
-
+// Get single user (ID)
 export async function getUserById(userId, fields = SELECT_FIELDS) {
     try {
         const rows = await sqlQuery(`SELECT ${fields} FROM ${TABLE_NAME} WHERE user_id='${userId}'`);
@@ -56,6 +59,7 @@ export async function getUserById(userId, fields = SELECT_FIELDS) {
     }
 }
 
+// Create user
 export async function createUser(firstName, lastName, email, password) {
     try {
         const result = await sqlQuery(`
@@ -68,6 +72,7 @@ export async function createUser(firstName, lastName, email, password) {
     }
 }
 
+// Update user
 export async function updateUser(id, firstName, lastName) {
     try {
         await sqlQuery(`
@@ -82,13 +87,15 @@ export async function updateUser(id, firstName, lastName) {
     }
 }
 
-
+// Delete user
 export async function deleteUser(id) {
     try {
+        // Delete user account
         await sqlQuery(`
             DELETE FROM ${TABLE_NAME}
             WHERE user_id = ${id}
         `);
+        // Delete user posts
         await deletePostsByUserId(id);
         return true;
     } catch (err) {
