@@ -1,6 +1,6 @@
 @body-bg: linear-gradient(to right, hsl(132, 30%, 90%), hsl(272, 30%, 90%));
-@header-bg: linear-gradient(155deg, hsl(32, 50%, 50%), hsl(32, 50%, 30%));
-@post-bg: linear-gradient(to right, hsl(132, 30%, 95%), hsl(272, 30%, 95%));
+@header-bg: linear-gradient(155deg, hsl(224, 50%, 40%), hsl(224, 50%, 20%));
+@post-bg: linear-gradient(to right, hsl(224, 20%, 85%), hsl(224, 20%, 75%));
 @link-active: hsl(65, 100%, 80%);
 @inner-width: 900px;
 @header-height: 7rem;
@@ -114,10 +114,10 @@ nav {
     font-weight: 500;
     color: #fff;
     cursor: pointer;
-    .box-shadow(2px, 3px, grey);
+    .box-shadow(2px, 3px, #0006);
     &:hover, &:active {
         background-image: linear-gradient(175deg, #eee, #bbb);
-        .box-shadow(2px, 8px, grey);
+        .box-shadow(2px, 8px, #0006);
     }
     svg {
         margin-right: 0.3rem;
@@ -199,17 +199,20 @@ form {
         border-radius: 5px;
         transition: background-color 0.2s;
         .box-shadow(1px, 3px, #000a);
+        &:hover, &:active {
+            .box-shadow(2px, 8px, #000a);
+        }
         &.success {
             color: #fff;
-            background-color: hsl(125, 50%, 50%);
-            &:hover {
-                background-color: hsl(125, 50%, 60%);
+            background-color: hsl(126, 50%, 40%);
+            &:hover, &:active {
+                background-color: hsl(125, 50%, 50%);
             }
         }
         &.danger {
             color: #fff;
             background-color: hsl(0, 50%, 50%);
-            &:hover {
+            &:hover, &:active {
                 background-color: hsl(0, 50%, 60%);
             }
         }
@@ -242,6 +245,7 @@ form {
         width: 3rem;
         height: 3rem;
         margin: auto;
+        margin-top: 12rem;
         border-radius: 50%;
         font-size: large;
         font-weight: 500;
@@ -264,6 +268,9 @@ form {
             font-size: large;
             font-weight: 500;
             &:extend(.btn, .btn-success);
+            &:hover, &:active {
+                &:extend(.btn:hover, .btn-success:hover);
+            }
         }
     }
 }
