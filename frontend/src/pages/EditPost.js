@@ -34,6 +34,7 @@ export default function EditPost() {
         if (params.id) {
             loadPost(params.id);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [params.id]);
 
     async function loadPost(postId) {

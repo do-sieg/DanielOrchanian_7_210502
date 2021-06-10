@@ -46,15 +46,23 @@ nav {
   align-items: center;
   gap: 1rem;
 }
-nav a {
+nav a,
+nav button {
+  padding: 0;
   text-decoration: none;
+  font-family: inherit;
   font-size: larger;
   font-weight: 500;
+  background: none;
+  border: none;
   color: #fff;
   transition: color 0.3s ease-in-out;
+  cursor: pointer;
 }
 nav a:hover,
-nav a:active {
+nav button:hover,
+nav a:active,
+nav button:active {
   color: hsl(65, 100%, 80%);
 }
 .error-block {

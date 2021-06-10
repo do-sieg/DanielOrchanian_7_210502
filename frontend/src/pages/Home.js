@@ -44,7 +44,7 @@ export default function Home() {
                 :
                 <div className="home-container">
                     <LoginForm onFetchStart={handleStartLoad} onFetchEnd={handleEndLoad} />
-                    <p class="home-or">OU</p>
+                    <p className="home-or">OU</p>
                     <SignupForm onFetchStart={handleStartLoad} onFetchEnd={handleEndLoad} />
                 </div>
             }

@@ -1,7 +1,6 @@
 import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
-import { Link } from "react-router-dom";
 import AuthLayout from "../components/AuthLayout";
 import ErrorBlock from "../components/ErrorBlock";
 import Loader from "../components/Loader";
@@ -20,10 +19,9 @@ export default function PostView() {
 
     const [post, setPost] = useState();
 
-    // Vérifier si le fetch régle le mauvais param tout seul
-
     useEffect(() => {
         loadPost();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     async function loadPost() {

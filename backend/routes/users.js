@@ -10,16 +10,17 @@ const router = express.Router();
 router.get("/profile", auth, async (req, res, next) => {
     try {
         const decoded = decodeToken(req.accessToken);
-        const findUser = await getUserById(decoded.user_id, [
+        const findUser = await getUserById(decoded.id, [
             "user_first_name AS firstName",
             "user_last_name AS lastName",
         ]);
         if (findUser) {
             res.status(200).json({ data: findUser });
         } else {
-            throw new Error();
+            throw new Error("Utilisateur introuvable");
         }
     } catch (err) {
+        console.log(err);
         handleServerError(req, res, err);
     }
 });
@@ -32,7 +33,7 @@ router.put("/profile", auth,
     async (req, res, next) => {
         try {
             const decoded = decodeToken(req.accessToken);
-            const findUser = await getUserById(decoded.user_id, ["user_id"]);
+            const findUser = await getUserById(decoded.id, ["user_id"]);
             if (findUser) {
 
                 await updateUser(findUser.user_id, req.body.firstName, req.body.lastName);
@@ -51,7 +52,7 @@ router.put("/profile", auth,
 router.delete("/profile", auth, async (req, res, next) => {
     try {
         const decoded = decodeToken(req.accessToken);
-        const findUser = await getUserById(decoded.user_id, ["user_id"]);
+        const findUser = await getUserById(decoded.id, ["user_id"]);
         if (findUser) {
 
             await deleteUser(findUser.user_id);

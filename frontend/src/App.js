@@ -4,11 +4,11 @@ import { SnackbarProvider } from 'notistack';
 
 function App() {
   return (
-    <SnackbarProvider maxSnack={3}>
-      <div className="App">
+    <div className="App">
+      <SnackbarProvider maxSnack={3}>
         <AppRouter />
-      </div>
-    </SnackbarProvider>
+      </SnackbarProvider>
+    </div>
   );
 }
 

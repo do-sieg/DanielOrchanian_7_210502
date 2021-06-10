@@ -7,10 +7,8 @@ import { isValidEmail, isValidPassword } from "../utils/validation";
 export default function LoginForm({ onFetchStart, onFetchEnd }) {
     const { enqueueSnackbar } = useSnackbar();
     // Fields
-    // const [email, setEmail] = useState("");
-    // const [password, setPassword] = useState("");
-    const [email, setEmail] = useState("test@test.test"); // TEST
-    const [password, setPassword] = useState("123"); // TEST
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     // Validation Errors
     const [errEmail, setErrEmail] = useState("");

@@ -68,13 +68,18 @@ nav {
     display: flex;
     align-items: center;
     gap: 1rem;
-    a {
+    a, button {
         // display: block;
+        padding: 0;
         text-decoration: none;
+        font-family: inherit;
         font-size: larger;
         font-weight: 500;
+        background: none;
+        border: none;
         color: #fff;
         transition: color 0.3s ease-in-out;
+        cursor: pointer;
         &:hover, &:active {
             color: @link-active;
         }
