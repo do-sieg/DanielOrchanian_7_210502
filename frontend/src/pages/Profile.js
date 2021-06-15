@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
+import { toast } from "react-toastify";
 import AuthLayout from "../components/AuthLayout";
 import ErrorBlock from "../components/ErrorBlock";
 import Loader from "../components/Loader";
 import { appFetch } from "../utils/fetch";
 import { deleteToken } from "../utils/token";
-import { useSnackbar } from "notistack";
 
 // Page de profil
 export default function Profile() {
     const history = useHistory();
-    const { enqueueSnackbar } = useSnackbar();
 
     const [load, setLoad] = useState(true);
     const [pageError, setPageError] = useState();
@@ -92,8 +91,11 @@ export default function Profile() {
             setLoad(true);
             const result = await appFetch('put', '/users/profile', body);
             setLoad(false);
-
-            enqueueSnackbar(result.message, { variant: result.status === 200 ? 'success' : 'error' });
+            if (result.status === 200) {
+                toast.success(result.message, { autoClose: 2000 });
+            } else {
+                toast.error(result.message, { autoClose: 2000 });
+            }
         }
     }
 
@@ -103,7 +105,7 @@ export default function Profile() {
             setLoad(true);
             const result = await appFetch('delete', '/users/profile');
             setLoad(false);
-            enqueueSnackbar(result.message, { variant: 'info' });
+            toast.info(result.message, { autoClose: 2000 });
             if (result.status === 200) {
                 deleteToken();
                 history.push("/");

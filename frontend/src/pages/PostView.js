@@ -1,6 +1,6 @@
-import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
+import { toast } from "react-toastify";
 import AuthLayout from "../components/AuthLayout";
 import ErrorBlock from "../components/ErrorBlock";
 import Loader from "../components/Loader";
@@ -12,7 +12,6 @@ import { deleteToken } from "../utils/token";
 export default function PostView() {
     const history = useHistory();
     const params = useParams();
-    const { enqueueSnackbar } = useSnackbar();
 
     const [load, setLoad] = useState(true);
     const [pageError, setPageError] = useState();
@@ -48,14 +47,14 @@ export default function PostView() {
                 deleteToken();
                 history.push("/");
             }
-            enqueueSnackbar(result.message, { variant: 'error' });
+            toast.error(result.message, { autoClose: 2000 });
             setLoad(false);
             return;
         }
         // Reload post
         await loadPost();
         setLoad(false);
-        enqueueSnackbar(result.message, { variant: 'success' });
+        toast.success(result.message, { autoClose: 2000 });
     }
 
     function handleEditPost(postId) {
@@ -74,7 +73,7 @@ export default function PostView() {
                     deleteToken();
                     history.push("/");
                 }
-                enqueueSnackbar(result.message, { variant: 'error' });
+                toast.error(result.message, { autoClose: 2000 });
                 setLoad(false);
                 return;
             }

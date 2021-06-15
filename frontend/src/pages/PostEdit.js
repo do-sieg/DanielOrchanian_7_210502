@@ -1,6 +1,6 @@
-import { useSnackbar } from "notistack";
 import { useEffect, useRef, useState } from "react";
 import { useHistory, useParams } from "react-router";
+import { toast } from "react-toastify";
 import AuthLayout from "../components/AuthLayout";
 import ErrorBlock from "../components/ErrorBlock";
 import Loader from "../components/Loader";
@@ -12,7 +12,6 @@ import { uploadFile } from "../utils/upload";
 export default function PostEdit() {
     const history = useHistory();
     const params = useParams();
-    const { enqueueSnackbar } = useSnackbar();
 
     const [load, setLoad] = useState(true);
     const [pageError, setPageError] = useState();
@@ -139,13 +138,13 @@ export default function PostEdit() {
                 deleteToken();
                 history.push("/");
             }
-            enqueueSnackbar(result.message, { variant: 'error' });
+            toast.error(result.message, { autoClose: 2000 });
             setLoad(false);
             return;
         }
 
         setLoad(false);
-        enqueueSnackbar(result.message, { variant: 'success' });
+        toast.success(result.message, { autoClose: 2000 });
 
         history.push((
             history.location.state && history.location.state.fromPostView) ?

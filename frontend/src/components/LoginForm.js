@@ -1,13 +1,11 @@
-import { useSnackbar } from "notistack";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { appFetch } from "../utils/fetch";
 import { storeToken } from "../utils/token";
 import { isValidEmail, isValidPassword } from "../utils/validation";
 
 // Formulaire de connection
 export default function LoginForm({ onFetchStart, onFetchEnd }) {
-    const { enqueueSnackbar } = useSnackbar();
-
     // Fields
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -62,7 +60,12 @@ export default function LoginForm({ onFetchStart, onFetchEnd }) {
 
         onFetchStart();
         const result = await appFetch('post', '/auth/login', body);
-        enqueueSnackbar(result.message, { variant: result.status === 200 ? 'success' : 'error' });
+        if (result.status === 200) {
+            toast.success(result.message, { autoClose: 2000 });
+        } else {
+            toast.error(result.message, { autoClose: 2000 });
+        }
+
         if (result.data) {
             storeToken(result.data);
         }
