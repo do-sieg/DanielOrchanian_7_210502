@@ -24,6 +24,7 @@ body {
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
+  padding: 0.5rem;
 }
 header {
   display: flex;
@@ -357,23 +358,10 @@ form .actions {
 .post-container .replies-list .post-container .post-body {
   box-shadow: unset;
 }
+/* MEDIA QUERIES */
 @media (max-width: 360px) {
   form {
     padding: 0.5rem;
-  }
-  .inner-container {
-    padding: 0.5rem;
-  }
-  header .inner-container {
-    flex-direction: column;
-    justify-content: center;
-    gap: 0.75rem;
-  }
-  header .inner-container nav {
-    justify-content: space-evenly;
-  }
-  header .inner-container nav a {
-    font-size: large;
   }
   .home-container {
     flex-direction: column;
@@ -402,5 +390,16 @@ form .actions {
 @media (max-width: 768px) {
   .inner-container {
     max-width: 640px;
+  }
+  header .inner-container {
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+  header .inner-container nav {
+    justify-content: space-evenly;
+  }
+  header .inner-container nav a {
+    font-size: large;
   }
 }

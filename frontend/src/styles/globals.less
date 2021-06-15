@@ -24,10 +24,7 @@ body {
     background-image: @body-bg;
 }
 
-
-
-
-
+// Used for most post images (and uploads)
 .post-img {
     display: block;
     margin-bottom: 20px;
@@ -36,6 +33,7 @@ body {
     object-fit: cover;
 }
 
+// Main container
 .container {
     min-height: calc(100vh - @header-height);
     display: flex;
@@ -47,8 +45,10 @@ body {
     width: 100%;
     max-width: @inner-width;
     margin: 0 auto;
+    padding: 0.5rem;
 }
 
+// Header
 header {
     display: flex;
     position: fixed;
@@ -69,12 +69,12 @@ header {
     }
 }
 
+// Navigation menu
 nav {
     display: flex;
     align-items: center;
     gap: 1rem;
     a, button {
-        // display: block;
         padding: 0;
         text-decoration: none;
         font-family: inherit;
@@ -91,6 +91,7 @@ nav {
     }
 }
 
+// Error block
 .error-block {
     flex: 1;
     display: flex;
@@ -98,7 +99,6 @@ nav {
     justify-content: center;
     gap: 1rem;
     font-size: xx-large;
-
     .code {
         padding-right: 1rem;
         border-right: 2px solid #ccc;
@@ -106,7 +106,7 @@ nav {
     }
 }
 
-
+// Button
 .btn {
     display: flex;
     align-items: center;
@@ -136,13 +136,12 @@ nav {
     }
 }
 
-
+// Loader
 .loader-container {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-
     position: fixed;
     top: 0;
     left: 0;
@@ -164,6 +163,7 @@ nav {
     to { transform: rotate(360deg); }
 }
 
+// Form
 form {
     padding: 1rem 2rem;
     label {
@@ -235,6 +235,7 @@ form {
     }
 }
 
+// Home page
 .home-container {
     display: flex;
     flex-direction: row;
@@ -257,6 +258,7 @@ form {
     }
 }
 
+// Posts list
 .posts-list {
     padding: 1rem 0;
     display: flex;
@@ -278,16 +280,15 @@ form {
     }
 }
 
-
+// Post
 .post-container {
     position: relative;
     border-radius: 5px;
-
+    // Post head
     .post-head {
         padding: 0.5rem 1rem;
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
-
         background: @header-bg;
         color: #fff;
         .box-shadow(2px, 5px, #0006);
@@ -324,7 +325,7 @@ form {
             }
         }
     }
-
+    // Post body
     .post-body {
         padding: 0.5rem 1rem;
         border-top: none;
@@ -342,7 +343,7 @@ form {
             .post-img();
         }
     }
-
+    // Post actions
     .post-actions {
         position: absolute;
         top: 5px;
@@ -362,7 +363,7 @@ form {
             .box-shadow(2px, 5px, #0006);
         }
     }
-    
+    // Replies list
     .replies-list {
         padding: 1rem 0 1rem 1rem;
         display: flex;
@@ -384,26 +385,10 @@ form {
     }
 }
 
-
+/* MEDIA QUERIES */
 @media (max-width: 360px) {
     form {
         padding: 0.5rem;
-    }
-    .inner-container {
-        padding: 0.5rem;
-    }
-    header {
-        .inner-container {
-            flex-direction: column;
-            justify-content: center;
-            gap: 0.75rem;
-            nav {
-                justify-content: space-evenly;
-                a {
-                    font-size: large;
-                }
-            }
-        }
     }
 
     .home-container {
@@ -439,6 +424,19 @@ form {
 @media (max-width: 768px) {
     .inner-container {
         max-width: 640px;
+    }
+    header {
+        .inner-container {
+            flex-direction: column;
+            justify-content: center;
+            gap: 0.75rem;
+            nav {
+                justify-content: space-evenly;
+                a {
+                    font-size: large;
+                }
+            }
+        }
     }
 }
 
