@@ -30,6 +30,8 @@ JWT_SECRET_KEY=123456
 > - DB_CONNECTIONLIMIT: Nombre de connections concurrentes  
 
 3. Créer un fichier `.env` dans le dossier `frontend`. Son contenu devra ressembler à ceci :
+4. Grâce à un terminal, à partir du dossier `backend`, lancer la commande `npm install`.
+5. Faire de même à partir du dossier `frontend`.
 ```
 JWT_SECRET_KEY=123456
 ```
