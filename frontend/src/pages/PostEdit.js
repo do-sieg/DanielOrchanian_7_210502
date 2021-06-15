@@ -33,6 +33,8 @@ export default function PostEdit() {
         // Si l'url a une id, on charge les données du post
         if (params.id) {
             loadPost(params.id);
+        } else {
+            setLoad(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [params.id]);

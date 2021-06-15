@@ -4,6 +4,9 @@ export default function ErrorBlock({ errCode }) {
     function getErrMessage() {
         let msg = "Une erreur s'est produite";
         switch (parseInt(errCode, 10)) {
+            case 403:
+                msg = "Accès non autorisé";
+                break;
             case 404:
                 msg = "Page introuvable";
                 break;
