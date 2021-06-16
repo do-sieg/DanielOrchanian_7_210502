@@ -23,7 +23,7 @@ app.use((req, res, next) => {
 });
 
 // Manage static requests for the /public route
-app.use('/public', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
 app.use(router);
