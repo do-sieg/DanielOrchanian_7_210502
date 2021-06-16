@@ -8,6 +8,12 @@ import { appFetch } from "../utils/fetch";
 import { deleteToken } from "../utils/token";
 import { uploadFile } from "../utils/upload";
 
+const acceptedFileTypes = [
+    "image/gif",
+    "image/jpeg",
+    "image/png",
+];
+
 // Création/modification de post
 export default function PostEdit() {
     const history = useHistory();
@@ -93,7 +99,11 @@ export default function PostEdit() {
         e.preventDefault();
         const file = Array.from(e.target.files)[0];
         if (file) {
-            setNewImageFile(file);
+            if (acceptedFileTypes.includes(file.type)) {
+                setNewImageFile(file);
+            } else {
+                toast.error("Type de fichier non accepté.", { autoClose: 2000 });
+            }
         }
     }
 
@@ -188,7 +198,12 @@ export default function PostEdit() {
                         {!isReply &&
                             <>
                                 <label>Image</label>
-                                <input type="file" ref={inputFile} onChange={handleChangeImage}></input>
+                                <input
+                                    type="file"
+                                    ref={inputFile}
+                                    accept={acceptedFileTypes.join(", ")}
+                                    onChange={handleChangeImage}
+                                ></input>
                                 {newImageFile ?
                                     <img src={URL.createObjectURL(newImageFile)} alt="" />
                                     :
