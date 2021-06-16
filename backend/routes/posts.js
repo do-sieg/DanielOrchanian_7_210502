@@ -102,7 +102,7 @@ router.put("/:id", auth, midUploadImg, async (req, res, next) => {
                     if (req.file) {
                         if (findPost.post_image_path) {
                             // Delete previous image file
-                            fs.unlink(`public/images/${findPost.post_image_path}`, (err) => {
+                            fs.unlink(`uploads/${findPost.post_image_path}`, (err) => {
                                 if (err) console.error(err);
                             });
                         }
@@ -113,7 +113,7 @@ router.put("/:id", auth, midUploadImg, async (req, res, next) => {
                         imagePath = body.imagePath;
                         // Delete image file if not needed anymore
                         if (findPost.post_image_path && !body.imagePath) {
-                            fs.unlink(`public/images/${findPost.post_image_path}`, (err) => {
+                            fs.unlink(`uploads/${findPost.post_image_path}`, (err) => {
                                 if (err) console.error(err);
                             });
                         }
@@ -176,7 +176,7 @@ router.delete("/:id", auth, async (req, res, next) => {
             if (isPostOwner(req, res, findPost.post_user_id) || findUser.user_role === ROLE_ADMIN) {
                 // Delete image file
                 if (findPost.post_image_path) {
-                    fs.unlink(`public/images/${findPost.post_image_path}`, (err) => {
+                    fs.unlink(`uploads/${findPost.post_image_path}`, (err) => {
                         if (err) console.error(err);
                     });
                 }

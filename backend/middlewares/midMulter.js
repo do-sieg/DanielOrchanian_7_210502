@@ -10,8 +10,9 @@ const MIME_TYPES = {
 
 const storage = multer.diskStorage({
     // Destination folder for uploaded images
-    destination: (req, file, callback) => {
-        callback(null, "public/images");
+    destination: (req, file, cb) => {
+        const dir = "uploads";
+        fs.mkdir(dir, err => cb(err, dir));
     },
     // Rewrite filename when uploading images
     filename: (req, file, callback) => {

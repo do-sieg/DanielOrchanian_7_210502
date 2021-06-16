@@ -84,7 +84,7 @@ export default function Post({ post, isReply = false, onReply, onEdit, onDelete 
             <div className="post-body">
                 <Linkify><p>{post.text}</p></Linkify>
                 {(post.imagePath && !isReply) &&
-                    <img src={`http://localhost:5000/public/images/${post.imagePath}`} alt={post.imagePath} />
+                    <img src={`http://localhost:5000/uploads/${post.imagePath}`} alt={post.imagePath} />
                 }
             </div>
 

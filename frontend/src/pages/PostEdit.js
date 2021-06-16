@@ -193,7 +193,7 @@ export default function PostEdit() {
                                     <img src={URL.createObjectURL(newImageFile)} alt="" />
                                     :
                                     imageFilePath &&
-                                    <img src={`http://localhost:5000/public/images/${imageFilePath}`} alt="" />
+                                    <img src={`http://localhost:5000/uploads/${imageFilePath}`} alt="" />
                                 }
                                 {(newImageFile || imageFilePath) && <button onClick={handleDeleteImage}>Supprimer</button>}
                             </>
