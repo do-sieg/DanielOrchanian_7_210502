@@ -133,7 +133,7 @@ export default function Profile() {
                         {errLastName !== "" && <p className="form-error">{errLastName}</p>}
 
                         <div className="actions">
-                            <button className="success" onClick={handleSubmit}>Modifier les changements</button>
+                            <button className="success" onClick={handleSubmit}>Sauvegarder les changements</button>
                             <button className="danger" onClick={handleDelete}>Supprimer le compte</button>
                         </div>
                     </form>
