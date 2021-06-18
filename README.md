@@ -30,12 +30,12 @@ JWT_SECRET_KEY=123456
 > - DB_CONNECTIONLIMIT: Nombre de connections concurrentes  
 
 3. Créer un fichier `.env` dans le dossier `frontend`. Son contenu devra ressembler à ceci :
-4. Grâce à un terminal, à partir du dossier `backend`, lancer la commande `npm install`.
-5. Faire de même à partir du dossier `frontend`.
 ```
 JWT_SECRET_KEY=123456
 ```
-> La valeur de `JWT_SECRET_KEY` doit être la même dans les deux fichiers `.env`
+> La valeur de `JWT_SECRET_KEY` doit être la même dans les deux fichiers `.env` (frontend et backend).
+4. Grâce à un terminal, à partir du dossier `backend`, lancer la commande `npm install`.
+5. Faire de même à partir du dossier `frontend`.
 
 ### E/ Démarrage
 1. Grâce à un terminal, à partir du dossier `backend`, lancez la commande `npm run dev`. L'application serveur tournera sur le port **5000** de localhost.
