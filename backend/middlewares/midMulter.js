@@ -11,9 +11,12 @@ const MIME_TYPES = {
 
 const storage = multer.diskStorage({
     // Destination folder for uploaded images
-    destination: (req, file, cb) => {
+    destination: (req, file, callback) => {
         const dir = "uploads";
-        fs.mkdir(dir, err => cb(err, dir));
+        if (!fs.existsSync(dir)){
+            fs.mkdirSync(dir);
+        }
+        callback(null, dir);
     },
     // Rewrite filename when uploading images
     filename: (req, file, callback) => {
